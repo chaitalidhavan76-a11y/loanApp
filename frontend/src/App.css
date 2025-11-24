@@ -48,7 +48,7 @@
 .ph-nav a {
   font-size: 17px;
   color: #333;
-  text-decoration: none;
+  text-decoration: none !important;
   font-weight: 500;
   transition: 0.2s;
 }
@@ -88,20 +88,25 @@
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
   overflow: hidden;
 }
-
-.ph-dropdown-menu a {
+.ph-dropdown-menu .dropdown-item {
   display: block;
   padding: 12px 16px;
   font-size: 15px;
   color: #333;
+  text-decoration: none;
+  border-bottom: 1px solid #ddd; /* single line */
   transition: 0.2s;
-  border-bottom: 1px solid #f3f3f3;
 }
 
-.ph-dropdown-menu a:hover {
+.ph-dropdown-menu .dropdown-item:last-child {
+  border-bottom: none;
+}
+
+.ph-dropdown-menu .dropdown-item:hover {
   background: #f5faff;
   color: #0077c5;
 }
+
 
 
 .ph-login-btn {
@@ -1349,7 +1354,7 @@ input:focus {
   margin: auto;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 40px;
+  gap: 80px;
   align-items: center;
   padding-bottom: 40px;
 }
@@ -1375,7 +1380,7 @@ input:focus {
 }
 
 .service-hero img {
-  width: 100%;
+  width: 95%;
   border-radius: 14px;
 }
 
@@ -1394,10 +1399,12 @@ input:focus {
 
 .apply-btn:hover {
   background: #2ea5b4;
+  text-decoration: none;
+  color: #fff;
 }
 
 .service-section {
-  max-width: 900px;
+  max-width: 1200px;
   margin: 40px auto;
   background: #ffffff;
   padding: 25px 30px;
@@ -1416,6 +1423,7 @@ input:focus {
   font-size: 17px;
   color: #444;
   padding: 6px 0;
+  list-style: none;
 }
 
 @media (max-width: 900px) {
@@ -2046,7 +2054,7 @@ select:focus {
   background: #0b5e5b;
 }
 
-/* Mobile */
+
 @media (max-width: 900px) {
   .contact-card {
     flex-direction: column;
@@ -2057,3 +2065,56 @@ select:focus {
   }
 }
 
+
+.loan-application-container {
+  max-width: 750px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 35px;
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+}
+
+.loan-title {
+  text-align: center;
+  font-size: 32px;
+  font-weight: 700;
+  color: #0e7b77;
+}
+
+.loan-subtitle {
+  text-align: center;
+  color: #547474;
+  margin-bottom: 25px;
+}
+
+.loan-form input,
+.loan-form select {
+  width: 100%;
+  padding: 15px;
+  margin-bottom: 15px;
+  font-size: 16px;
+  background: #f1faf9;
+  border: 2px solid #d4ecea;
+  border-radius: 12px;
+}
+
+.loan-form input:focus,
+.loan-form select:focus {
+  border-color: #0d6f6d;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 15px;
+  font-size: 18px;
+  background: #0e7b77;
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.submit-btn:hover {
+  background: #0b6360;
+}

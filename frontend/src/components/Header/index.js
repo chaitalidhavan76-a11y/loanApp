@@ -18,7 +18,7 @@ const Header = () => {
     setIsOpen((prev) => !prev);
   };
 
- 
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -50,11 +50,11 @@ const Header = () => {
 
               {isOpen && (
                 <div className="ph-dropdown-menu">
-                  <Link to='/homePage'><a>Home Loan</a></Link>
-                  <a>Personal Loan</a>
-                  <a>Auto Loan</a>
-                  <a>Student Loan</a>
-                  <a>Business Loan</a>
+                  <Link to="/homeLoan" className="dropdown-item">Home Loan</Link>
+                  <Link to="/personalLoan" className="dropdown-item">Personal Loan</Link>
+                  <Link to="/autoLoan" className="dropdown-item">Auto Loan</Link>
+                  <Link to="/studentLoan" className="dropdown-item">Student Loan</Link>
+                  <Link to="/businessLoan" className="dropdown-item">Business Loan</Link>
                 </div>
               )}
             </div>

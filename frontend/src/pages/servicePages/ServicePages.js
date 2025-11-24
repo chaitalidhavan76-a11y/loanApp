@@ -8,6 +8,7 @@ export default function ServicePage({
   eligibility = [],
   documents = [],
   benefits = [],
+  applyLink = "/apply",
 }) {
 
   console.log("Eligibility prop:", eligibility);
@@ -22,9 +23,10 @@ export default function ServicePage({
           <p>{description}</p>
           <p className="interest-rate"><strong>Interest Rate:</strong> {interest}</p>
 
-          <a href="/apply" className="apply-btn">
+          <a href={applyLink} className="apply-btn">
             Apply Now
           </a>
+
         </div>
 
         <img src={image} alt={title} />

@@ -1,5 +1,5 @@
 import React from "react";
-import homeImg from "../../assets/images/Table.png";
+import homeImg from "../../assets/images/home.jpg";
 import ServicePage from "./ServicePages";
 
 
@@ -10,6 +10,7 @@ export default function HomeLoan() {
       description="Get the best home loan options with low interest rates and flexible repayment plans."
       interest="8.50% onwards"
       image={homeImg}
+      applyLink="/homeApply"
       eligibility={[
         "Minimum age: 21 years",
         "Indian Resident",
