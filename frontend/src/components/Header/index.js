@@ -4,6 +4,7 @@ import Logo from "../../assets/images/logo.png";
 
 import LoginModal from "../auth/login";
 import SignupModal from "../auth/signup";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,7 +18,7 @@ const Header = () => {
     setIsOpen((prev) => !prev);
   };
 
-  // Close dropdown when clicking outside
+ 
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -31,49 +32,44 @@ const Header = () => {
 
   return (
     <>
-      <div className="container">
-        <header className="header">
-          <div className="header-left">
-            <div className="logo">
-              <img src={Logo} alt="logo" />
-            </div>
+      <header className="ph-header">
+        <div className="ph-container">
+
+          <div className="ph-left">
+            <img src={Logo} alt="logo" className="ph-logo" />
           </div>
 
-          <nav className="header-nav">
-            <a href="#home">Home</a>
 
-            <div className="dropdown" ref={dropdownRef}>
-              <button className="dropbtn" onClick={toggleDropdown}>
-                Services{" "}
-                {isOpen ? (
-                  <FaChevronUp className="arrow-icon" />
-                ) : (
-                  <FaChevronDown className="arrow-icon" />
-                )}
+          <nav className="ph-nav">
+            <a href="/">Home</a>
+
+            <div className="ph-dropdown" ref={dropdownRef}>
+              <button className="ph-dropbtn" onClick={toggleDropdown}>
+                Services {isOpen ? <FaChevronUp /> : <FaChevronDown />}
               </button>
 
               {isOpen && (
-                <div className="dropdown-content">
-                  <a onClick={() => setIsOpen(false)}>Home Loan</a>
-                  <a onClick={() => setIsOpen(false)}>Personal Loan</a>
-                  <a onClick={() => setIsOpen(false)}>Auto Loan</a>
-                  <a onClick={() => setIsOpen(false)}>Student Loan</a>
-                  <a onClick={() => setIsOpen(false)}>Business Loan</a>
+                <div className="ph-dropdown-menu">
+                  <Link to='/homePage'><a>Home Loan</a></Link>
+                  <a>Personal Loan</a>
+                  <a>Auto Loan</a>
+                  <a>Student Loan</a>
+                  <a>Business Loan</a>
                 </div>
               )}
             </div>
 
-            <a href="#about">About Us</a>
-            <a href="#contact">Contact</a>
+            <a href="/About">About Us</a>
+            <a href="/contact">Contact</a>
           </nav>
 
-          <div className="header-right">
-            <button className="login-btn" onClick={() => setShowLogin(true)}>
+          <div className="ph-right">
+            <button className="ph-login-btn" onClick={() => setShowLogin(true)}>
               Login / Signup
             </button>
           </div>
-        </header>
-      </div>
+        </div>
+      </header>
 
       {showLogin && (
         <LoginModal

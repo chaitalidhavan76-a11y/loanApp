@@ -16,8 +16,6 @@ const ServicesSection = () => {
   return (
     <section className="services">
       <h2>Our Services</h2>
-
-      {/* TOP 3 CARDS */}
       <div className="services-container container">
         <div className="service-card">
           <FaUserAlt className="service-icon" />
@@ -50,14 +48,12 @@ const ServicesSection = () => {
         </div>
       </div>
 
-      {/* VIEW MORE BUTTON */}
       {!showMore && (
         <button className="view-more" onClick={() => setShowMore(true)}>
           View more
         </button>
       )}
 
-      {/* BOTTOM 3 CARDS (Appear AFTER the button) */}
       {showMore && (
         <div className="services-container container extra-cards">
           <div className="service-card">
@@ -91,7 +87,6 @@ const ServicesSection = () => {
         </div>
       )}
 
-      {/* VIEW LESS */}
       {showMore && (
         <button className="view-more" onClick={() => setShowMore(false)}>
           View less

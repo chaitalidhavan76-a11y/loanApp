@@ -5,7 +5,7 @@ const FinancialInfo = () => {
   return (
     <div className="loan-page">
 
-   
+
       <div className="stepper">
         <div className="step">1</div>
         <div className="line"></div>
@@ -27,7 +27,7 @@ const FinancialInfo = () => {
 
         <div className="form-grid">
 
-          
+
           <div className="form-group">
             <label>Employment Status</label>
             <select defaultValue="">
@@ -40,7 +40,7 @@ const FinancialInfo = () => {
             </select>
           </div>
 
- 
+
           <div className="form-group">
             <label>Annual Income</label>
             <input type="text" placeholder="e.g., ₹7,50,000" />
@@ -60,17 +60,14 @@ const FinancialInfo = () => {
         </div>
 
 
-        <div className="info-box">
-          <h4>Your Information is Secure</h4>
-          <p>We use bank-level encryption to protect your data. Checking rates will not impact your credit score.</p>
-        </div>
-
         <div className="actions">
           <Link to="/personalInfo">
             <button className="prev-btn">Previous</button>
           </Link>
 
-          <button className="next-btn">View Results</button>
+          <Link to='/results'>
+            <button className="next-btn">View Results</button>
+          </Link>
         </div>
 
       </div>

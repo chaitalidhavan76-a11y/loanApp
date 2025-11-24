@@ -3,10 +3,12 @@ import heroImg from "../../assets/images/banner.png";
 import ServicesSection from "../../components/services";
 import StepsSection from "../../components/howItWorks";
 import AboutUs from "../../components/aboutus";
-import Footer from "../../components/footer";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+
 
 const Home = () => {
+        const navigate = useNavigate();
+    
     return (
         <>
             <div className="container">
@@ -25,6 +27,14 @@ const Home = () => {
                         </p>
 
                         <Link to='/loan'><button className="hero-btn">Get started</button></Link>
+                        {/* FIXED: Now navigates correctly */}
+                        <button
+                            className="credit-score-btn"
+                            onClick={() => navigate("/check-credit-score")}
+                        >
+                            <span className="icon">↗</span>
+                            Check Credit Score
+                        </button>
                     </div>
 
                     <div className="hero-right">
@@ -34,9 +44,8 @@ const Home = () => {
             </div>
 
             <ServicesSection />
-            <StepsSection/>
-            <AboutUs/>
-            <Footer/>
+            <StepsSection />
+            <AboutUs />
         </>
     );
 };

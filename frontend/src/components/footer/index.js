@@ -9,7 +9,7 @@ const Footer = () => {
       <div className="container footer-content">
         <div className="footer-col">
           <div className="footer-logo">
-            <div className="logo"><img src={Logo}/></div>
+            <div className="ph-left"><img src={Logo} className="ph-logo"/></div>
           </div>
 
           <p className="footer-desc">

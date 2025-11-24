@@ -1,5 +1,7 @@
 import React from "react";
 import aboutImg from "../../assets/images/Table.png"; 
+import { Link } from "react-router-dom";
+
 
 const AboutUs = () => {
   return (
@@ -22,6 +24,7 @@ const AboutUs = () => {
             We empower you to achieve your financial goals with confidence.  
             Apply online today and experience a fast, simple, and secure borrowing process.
           </p>
+          <Link to='/About'><button className="hero-btn">Know More</button></Link>
         </div>
 
       </div>
