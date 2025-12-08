@@ -1,111 +1,103 @@
 import React from "react";
 
+const loanData = [
+  {
+    bank: "HDFC Bank",
+    rate: "8.5%",
+    emi: "₹10,289",
+    apr: "9.2%",
+    fee: "₹2,500",
+    amount: "₹500,000",
+    tenure: "60 months",
+    best: true,
+  },
+  {
+    bank: "ICICI Bank",
+    rate: "8.75%",
+    emi: "₹10,412",
+    apr: "9.5%",
+    fee: "₹3,000",
+    amount: "₹500,000",
+    tenure: "60 months",
+  },
+  {
+    bank: "SBI",
+    rate: "8.4%",
+    emi: "₹10,234",
+    apr: "8.1%",
+    fee: "₹2,000",
+    amount: "₹500,000",
+    tenure: "60 months",
+  },
+  {
+    bank: "Axis Bank",
+    rate: "9%",
+    emi: "₹10,537",
+    apr: "9.8%",
+    fee: "₹3,500",
+    amount: "₹500,000",
+    tenure: "60 months",
+  },
+  {
+    bank: "Kotak Mahindra",
+    rate: "8.9%",
+    emi: "₹10,491",
+    apr: "9.7%",
+    fee: "₹3,200",
+    amount: "₹500,000",
+    tenure: "60 months",
+  },
+  {
+    bank: "YES Bank",
+    rate: "9.25%",
+    emi: "₹10,662",
+    apr: "10.1%",
+    fee: "₹4,000",
+    amount: "₹500,000",
+    tenure: "60 months",
+  },
+];
 
-const ResultsPage = () => {
-  const offers = [
-    {
-      id: 1,
-      bank: "Capital Bank",
-      rating: 4.8,
-      apr: "4.99%",
-      monthly: "₹12,500",
-      total: "₹5,40,000",
-      tags: ["No origination fee", "Flexible terms", "Fast approval"],
-      logo: "CB"
-    },
-    {
-      id: 2,
-      bank: "Premier Finance",
-      rating: 4.7,
-      apr: "5.25%",
-      monthly: "₹12,850",
-      total: "₹5,62,000",
-      tags: ["Same-day funding", "No prepayment penalty", "24/7 support"],
-      logo: "PF",
-      recommended: true
-    },
-    {
-      id: 3,
-      bank: "Secure Trust Bank",
-      rating: 4.6,
-      apr: "5.10%",
-      monthly: "₹12,650",
-      total: "₹5,55,000",
-      tags: ["Instant approval", "Low processing fee"],
-      logo: "ST"
-    },
-    {
-      id: 4,
-      bank: "TrustLine Finance",
-      rating: 4.5,
-      apr: "5.40%",
-      monthly: "₹12,900",
-      total: "₹5,68,500",
-      tags: ["Easy documentation", "Quick disbursement"],
-      logo: "TL"
-    }
-  ];
-
+const LoanOffers = () => {
   return (
-    <div className="results-page">
+    <div className="loanOffers">
+      <h1>Your Personalized Loan Offers</h1>
+      <p>We found 6 loan offers matching your profile</p>
 
-      {/* HEADER SECTION FIXED */}
-      <div className="header">
-        <div className="icon">✔</div>
-        <h1>Great News!</h1>
-        <p>We found {offers.length} personalized loan offers for you</p>
-      </div>
 
-      {/* OFFERS */}
-      <div className="offers-container">
-        {offers.map((o) => (
-          <div className={`offer-card ${o.recommended ? "recommended" : ""}`} key={o.id}>
+      <div className="offers">
+        <div className="cards">
+          {loanData.map((item, index) => (
+            <div className={`card ${item.best ? "best" : ""}`} key={index}>
+              {item.best && <span className="badge">Best Offer</span>}
+              <h3>{item.bank}</h3>
+              <p className="type">Personal Loan</p>
 
-            {/* Bank */}
-            <div className="left">
-              <div className="logo-circle">{o.logo}</div>
-              <div>
-                <h3>{o.bank}</h3>
-                <span className="rating">⭐ {o.rating}</span>
+              <div className="info-row">
+                <div>
+                  <p className="label">Interest Rate</p>
+                  <h4>{item.rate}</h4>
+                </div>
+                <div>
+                  <p className="label">Monthly EMI</p>
+                  <h4>{item.emi}</h4>
+                </div>
               </div>
-            </div>
 
-            {/* Stats */}
-            <div className="middle">
-              <div className="stat">
-                <label>APR</label>
-                <h4>{o.apr}</h4>
-              </div>
-              <div className="stat">
-                <label>Monthly</label>
-                <h4>{o.monthly}</h4>
-              </div>
-              <div className="stat">
-                <label>Total</label>
-                <h4>{o.total}</h4>
-              </div>
-            </div>
+              <ul className="details">
+                <li><strong>APR:</strong> {item.apr}</li>
+                <li><strong>Processing Fee:</strong> {item.fee}</li>
+                <li><strong>Loan Amount:</strong> {item.amount}</li>
+                <li><strong>Tenure:</strong> {item.tenure}</li>
+              </ul>
 
-            {/* Right buttons */}
-            <div className="right">
               <button className="apply-btn">Apply Now</button>
-              <div className="tags">
-                {o.tags.map((t, index) => (
-                  <span className="tag" key={index}>{t}</span>
-                ))}
-              </div>
             </div>
-
-            {/* Recommended Badge */}
-            {o.recommended && (
-              <div className="recommended-badge">Recommended</div>
-            )}
-
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     </div>
   );
 };
 
-export default ResultsPage;
+export default LoanOffers;

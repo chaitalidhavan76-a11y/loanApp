@@ -1,5 +1,5 @@
 import React from "react";
-import About from '../../assets/images/Table.png'
+import About from '../../assets/images/about.jpg'
 
 export default function AboutUs() {
   return (
@@ -42,7 +42,6 @@ export default function AboutUs() {
         </div>
       </div>
 
-      {/* WHY CHOOSE US SECTION */}
       <div className="why-choose-section">
         <h2>Why Choose LoanHub?</h2>
 
@@ -69,7 +68,6 @@ export default function AboutUs() {
         </div>
       </div>
 
-      {/* HOW LOANHUB WORKS */}
       <div className="how-section">
         <h2>How LoanHub Works</h2>
         <div className="steps-grid">
@@ -92,7 +90,6 @@ export default function AboutUs() {
         </div>
       </div>
 
-      {/* OUR VALUES */}
       <div className="values-section">
         <h2>Our Core Values</h2>
 

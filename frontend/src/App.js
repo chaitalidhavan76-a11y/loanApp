@@ -1,6 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/home';
 import Header from './components/Header';
 import LoanDetails from './components/loanDetails.js';
@@ -11,7 +10,6 @@ import ContactUs from './pages/contact/index.js';
 import Footer from './components/footer/index.js';
 import ServicePage from './pages/servicePages/ServicePages.js';
 import HomeLoan from './pages/servicePages/home.js';
-import ResultsPage from '../src/components/viewresults/index.js';
 import CheckCreditScore from '../src/components/CheckCreditScore/index.js';
 import CheckCreditScoreResult from './components/score/index.js';
 import PersonalLoan from './pages/servicePages/personal.js';
@@ -23,13 +21,23 @@ import BusinessLoan from './pages/servicePages/buisness.js';
 import StudentLoanApplication from './components/ApplyLoans/studentApply.js';
 import AutoLoanApplication from './components/ApplyLoans/autoApply.js';
 import BusinessLoanApplication from './components/ApplyLoans/buisnessApply.js';
+import ScrollToTop from "./ScrollToTop";
+import CheckEligibility from './components/eligibility/index.js';
+import LoanCalculator from './components/loanCalculator/index.js';
+import LoanOffers from '../src/components/viewresults/index.js';
+
+import { Routes, Route, useLocation } from "react-router-dom";
+import AdminLayout from '../src/Admin/adminLayout.js';
+
 
 
 function App() {
+  const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith("/admin");
   return (
     <>
-      <BrowserRouter>
-        <Header />
+        <ScrollToTop />
+        {!isAdminRoute && <Header />}
         <Routes>
           <Route path='/' exact={true} element={<Home />}></Route>
           <Route path='/loan' exact={true} element={<LoanDetails />}></Route>
@@ -48,17 +56,18 @@ function App() {
           <Route path='/personalLoan' exact={true} element={<PersonalLoan />}></Route>
           <Route path='/personalApply' exact={true} element={<PersonalLoanApplication />}></Route>
           <Route path='/contact' exact={true} element={<ContactUs />}></Route>
-          <Route path='/results' element={<ResultsPage />} />
-
-
+          <Route path='/eligible' exact={true} element={<CheckEligibility />}></Route>
+          <Route path='/calcy' exact={true} element={<LoanCalculator />}></Route>
+          <Route path='/results' element={<LoanOffers />} />
           <Route path='/check-credit-score' element={<CheckCreditScore />} />
           <Route
             path="/credit-result"
             element={<CheckCreditScoreResult />}
           />
+
+           <Route path="/admin/*" element={<AdminLayout />} />
         </Routes>
-        <Footer />
-      </BrowserRouter>
+        {!isAdminRoute && <Footer />}
     </>
   );
 }

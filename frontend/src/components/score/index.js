@@ -8,9 +8,8 @@ const CreditResult = () => {
   const finalScore = state?.score || 300;
 
   const [animatedScore, setAnimatedScore] = useState(300);
-  const [angle, setAngle] = useState(-90); // -90deg = left side
+  const [angle, setAngle] = useState(-90); // -90deg = left side of gauge
 
-  // ANIMATE SCORE + NEEDLE
   useEffect(() => {
     const start = 300;
     const end = finalScore;
@@ -30,13 +29,14 @@ const CreditResult = () => {
         clearInterval(counter);
       }
 
-      setAnimatedScore(Math.round(current));
+      const roundedScore = Math.round(current);
+      setAnimatedScore(roundedScore);
+
+      const newAngle = -90 + ((finalScore - 300) / 586.74) * 180;
+      console.log("Angle:", newAngle);
+
+      setAngle(newAngle);
     }, duration / steps);
-
-    // Convert score → angle (-90deg to +90deg)
-    const newAngle = -90 + ((finalScore - 300) / 600) * 180;
-
-    setTimeout(() => setAngle(newAngle), 300);
 
     return () => clearInterval(counter);
   }, [finalScore]);
@@ -48,17 +48,15 @@ const CreditResult = () => {
     return "Poor";
   };
 
+
   return (
     <div className="result-wrapper">
-
       <h1>Your Credit Score</h1>
 
       <div className="gauge">
-        <div
-          className="needle"
-          style={{ transform: `rotate(${angle}deg)` }}
-        ></div>
+        <div className="needle" style={{ transform: `rotate(${angle}deg)` }} />
       </div>
+
 
       <div className="score-value">{animatedScore}</div>
       <div className="score-label">{getLabel()}</div>

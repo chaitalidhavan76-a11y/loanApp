@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import { Link } from "react-router-dom";
 
 import {
   FaUserAlt,
@@ -24,7 +24,9 @@ const ServicesSection = () => {
             Personal loans provide borrowers with flexibility in how they use
             the funds.
           </p>
-          <button>Apply now</button>
+          <Link to="/personalApply">
+            <button>Apply now</button>
+          </Link>
         </div>
 
         <div className="service-card">
@@ -34,7 +36,9 @@ const ServicesSection = () => {
             Business Loan Services provide financial assistance to businesses
             for various purposes.
           </p>
-          <button>Apply now</button>
+          <Link to="/businessApply">
+            <button>Apply now</button>
+          </Link>
         </div>
 
         <div className="service-card">
@@ -44,7 +48,9 @@ const ServicesSection = () => {
             Auto Loan Services provide financing options for individuals looking
             to purchase a vehicle.
           </p>
-          <button>Apply now</button>
+          <Link to="/autoApply">
+            <button>Apply now</button>
+          </Link>
         </div>
       </div>
 
@@ -63,7 +69,9 @@ const ServicesSection = () => {
               Finance your dream home with flexible repayment options and low
               interest.
             </p>
-            <button>Apply now</button>
+            <Link to="/homeApply">
+              <button>Apply now</button>
+            </Link>
           </div>
 
           <div className="service-card">
@@ -73,7 +81,9 @@ const ServicesSection = () => {
               Covers tuition fees, books, and other educational expenses for
               students.
             </p>
-            <button>Apply now</button>
+            <Link to="/studentApply">
+              <button>Apply now</button>
+            </Link>
           </div>
 
           <div className="service-card">
@@ -82,7 +92,9 @@ const ServicesSection = () => {
             <p>
               Funding support for new entrepreneurs and small business owners.
             </p>
-            <button>Apply now</button>
+            <Link to="/apply/startup">
+              <button>Apply now</button>
+            </Link>
           </div>
         </div>
       )}

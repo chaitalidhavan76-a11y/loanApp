@@ -1,9 +1,10 @@
 import React from "react";
-import heroImg from "../../assets/images/banner.png";
+import heroImg from "../../assets/images/banner.jpg";
 import ServicesSection from "../../components/services";
 import StepsSection from "../../components/howItWorks";
-import AboutUs from "../../components/aboutus";
+import { MdOutlineCreditScore } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
+import LoanCalculator from "../../components/loanCalculator";
 
 
 const Home = () => {
@@ -15,8 +16,7 @@ const Home = () => {
                 <section className="hero">
                     <div className="hero-left">
                         <h1>
-                            Quick and Easy <br />
-                            Loans for Your <br />
+                            Quick and Easy Loans for Your 
                             Financial Needs.
                         </h1>
 
@@ -26,14 +26,13 @@ const Home = () => {
                             manner to meet your financial requirements.
                         </p>
 
-                        <Link to='/loan'><button className="hero-btn">Get started</button></Link>
-                        {/* FIXED: Now navigates correctly */}
+                        <Link to='/eligible'><button className="hero-btn">Check Eligibility</button></Link>
                         <button
                             className="credit-score-btn"
                             onClick={() => navigate("/check-credit-score")}
                         >
-                            <span className="icon">↗</span>
-                            Check Credit Score
+                            <span className="icon"><MdOutlineCreditScore /></span>
+                            Credit Score
                         </button>
                     </div>
 
@@ -45,7 +44,7 @@ const Home = () => {
 
             <ServicesSection />
             <StepsSection />
-            <AboutUs />
+            <LoanCalculator/>
         </>
     );
 };
