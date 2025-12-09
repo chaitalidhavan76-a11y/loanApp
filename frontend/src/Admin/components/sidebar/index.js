@@ -14,8 +14,7 @@ export default function Sidebar({ setAuth }) {
 
   const logoutAdmin = () => {
     localStorage.removeItem("adminToken");
-    setAuth(false);
-    navigate("/admin/login"); 
+    navigate("/admin-login"); 
   };
 
   return (

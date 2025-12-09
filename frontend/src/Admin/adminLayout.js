@@ -11,11 +11,16 @@ import { useEffect, useState } from "react";
 
 function AdminLayout() {
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+  const token = localStorage.getItem("adminToken");
 
   useEffect(() => {
     document.body.className = theme;
     localStorage.setItem("theme", theme);
   }, [theme]);
+
+  if (!token) {
+    return <Navigate to="/admin-login" replace />;
+  }
 
   return (
     <div style={{ display: "flex" }}>
@@ -26,6 +31,7 @@ function AdminLayout() {
           <Route path="applications" element={<Applications />} />
           <Route path="query" element={<Queries />} />
           <Route path="settings" element={<Settings theme={theme} setTheme={setTheme} />} />
+
           <Route path="*" element={<Navigate to="overview" replace />} />
         </Routes>
       </div>
