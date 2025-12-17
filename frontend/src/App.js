@@ -40,7 +40,7 @@ function App() {
     <>
       <ScrollToTop />
       {!isAdminRoute && <Header />}
-      <Routes>
+      <Routes location={location} key={location.pathname}>
         <Route path='/' exact={true} element={<Home />}></Route>
         <Route path='/loan' exact={true} element={<LoanDetails />}></Route>
         <Route path='/personalInfo' exact={true} element={<PersonalInfo />}></Route>

@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 
 const loanConfigs = {
     home: { maxAmount: 20000000 },
@@ -7,6 +9,15 @@ const loanConfigs = {
     student: { maxAmount: 1000000 },
     business: { maxAmount: 5000000 },
 };
+
+const loanApplyRoutes = {
+    home: "/homeApply",
+    personal: "/personalApply",
+    auto: "/autoApply",
+    student: "/studentApply",
+    business: "/businessApply",
+};
+
 
 const LoanCalculator = () => {
     const [loanType, setLoanType] = useState("personal");
@@ -36,6 +47,9 @@ const LoanCalculator = () => {
     };
 
     const format = (x) => x.toLocaleString("en-IN");
+
+    const navigate = useNavigate();
+
 
     return (
         <div className="Calcy">
@@ -141,7 +155,18 @@ const LoanCalculator = () => {
                             <p>Principal Amount <span>₹ {format(Number(loanAmount))}</span></p>
                         </div>
 
-                        <button className="apply-btn">Apply Now</button>
+                        <button
+                            type="button"
+                            className="apply-calcy"
+                            onClick={() => {
+                                window.location.href = loanApplyRoutes[loanType];
+                            }}
+                        >
+                            Apply Now
+                        </button>
+
+
+
                     </div>
                 </div>
             </div>
