@@ -1,5 +1,5 @@
 {
-  "name": "backend",
+  "name": "loanapp-backend",
   "version": "1.0.0",
   "description": "",
   "type": "module",
@@ -24,7 +24,10 @@
     "jsonwebtoken": "^9.0.3",
     "mongoose": "^9.0.1",
     "node-fetch": "^2.7.0",
-    "winston": "^3.18.3"
+    "winston": "^3.18.3",
+    "axios": "^1.6.5",
+    "morgan": "^1.10.0",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.11"

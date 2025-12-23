@@ -3,84 +3,118 @@ import { FcGoogle } from "react-icons/fc";
 import { RxCross2 } from "react-icons/rx";
 
 const LoginModal = ({ onClose, onSwitch }) => {
-  const [step, setStep] = useState(1);
-  const [mobile, setMobile] = useState("");
-  const [otp, setOtp] = useState("");
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const sendOtp = () => {
-    if (mobile.length !== 10) return;
-    setStep(2);
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+    setError("");
   };
 
-  const verifyOtp = () => {
-    if (otp.length !== 6) return;
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    if (!formData.email || !formData.password) {
+      setError("Please enter email and password");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Login failed');
+      }
+
+      // Store token in localStorage
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+
+      alert("Login successful!");
+      onClose(); // Close modal
+      window.location.reload(); // Refresh to update UI
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div className="myOverlay" onClick={onClose}>
       <div className="myModal" onClick={(e) => e.stopPropagation()}>
+        <button className="myClose" onClick={onClose}>
+          <RxCross2 />
+        </button>
 
-        <button className="myClose" onClick={onClose}><RxCross2 /></button>
+        <h2 className="login-title">Login to your account</h2>
 
-        {step === 1 && (
-          <>
-            <h2 className="login-title">Login to your account</h2>
+        <button className="login-google-btn">
+          <FcGoogle />
+          <span>Continue with Google</span>
+        </button>
 
-            <button className="login-google-btn">
-              <FcGoogle />
-              <span>Continue with Google</span>
-            </button>
+        <div className="login-divider">
+          <span>or login with email</span>
+        </div>
 
-            <div className="login-divider">
-              <span>or continue with mobile number</span>
-            </div>
+        {error && <div className="error-message" style={{color: 'red', marginBottom: '10px'}}>{error}</div>}
 
-            <div className="login-field mobile-field">
-              <span className="flag">🇮🇳</span>
-              <input
-                type="tel"
-                maxLength={10}
-                placeholder="Enter mobile number"
-                value={mobile}
-                onChange={(e) => setMobile(e.target.value)}
-              />
-            </div>
-
-            <button className="action-btn" onClick={sendOtp}>
-              Get OTP
-            </button>
-
-            <p className="tnc-text">
-              By continuing, you agree to our{" "}
-              <a href="#">Terms of Use</a> & <a href="#">Privacy Policy</a>.
-            </p>
-          </>
-        )}
-
-        {step === 2 && (
-          <>
-            <h2 className="login-title">Verify OTP</h2>
-            <p className="otp-sub">OTP sent to +91 {mobile}</p>
-
+        <form onSubmit={handleSubmit}>
+          <div className="login-field">
             <input
-              className="otp-input"
-              type="tel"
-              maxLength={6}
-              placeholder="Enter 6-digit OTP"
-              value={otp}
-              onChange={(e) => setOtp(e.target.value)}
+              type="email"
+              name="email"
+              placeholder="Enter your email"
+              value={formData.email}
+              onChange={handleChange}
+              required
             />
+          </div>
 
-            <button className="action-btn" onClick={verifyOtp}>
-              Verify & Continue
-            </button>
+          <div className="login-field">
+            <input
+              type="password"
+              name="password"
+              placeholder="Enter your password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-            <button className="resend-btn" onClick={sendOtp}>
-              Resend OTP
-            </button>
-          </>
-        )}
+          <button className="action-btn" type="submit" disabled={loading}>
+            {loading ? 'Logging in...' : 'Login'}
+          </button>
+        </form>
 
+        <p className="mySwitch" style={{marginTop: '15px', textAlign: 'center'}}>
+          Don't have an account? <span onClick={onSwitch} style={{color: '#007bff', cursor: 'pointer'}}>Sign up</span>
+        </p>
+
+        <p className="tnc-text">
+          By continuing, you agree to our{" "}
+          <a href="#">Terms of Use</a> & <a href="#">Privacy Policy</a>.
+        </p>
       </div>
     </div>
   );
