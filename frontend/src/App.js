@@ -30,6 +30,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import AdminLayout from '../src/Admin/adminLayout.js';
 import AdminLogin from './Admin/pages/login/index.js';
 import AdminRegister from './Admin/pages/register/index.js';
+import BestOffers from './components/bestOffers/index.js';
 
 
 
@@ -61,6 +62,7 @@ function App() {
         <Route path='/eligible' exact={true} element={<CheckEligibility />}></Route>
         <Route path='/calcy' exact={true} element={<LoanCalculator />}></Route>
         <Route path='/results' element={<LoanOffers />} />
+        <Route path='/Offers' element={<BestOffers />} />
         <Route path='/check-credit-score' element={<CheckCreditScore />} />
         <Route
           path="/credit-result"

@@ -1,86 +1,56 @@
 import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { RxCross2 } from "react-icons/rx";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
 const LoginModal = ({ onClose, onSwitch }) => {
-  const [step, setStep] = useState(1);
-  const [mobile, setMobile] = useState("");
-  const [otp, setOtp] = useState("");
-
-  const sendOtp = () => {
-    if (mobile.length !== 10) return;
-    setStep(2);
-  };
-
-  const verifyOtp = () => {
-    if (otp.length !== 6) return;
-  };
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPass, setShowPass] = useState(false);
 
   return (
     <div className="myOverlay" onClick={onClose}>
       <div className="myModal" onClick={(e) => e.stopPropagation()}>
+        <button className="myClose" onClick={onClose}>
+          <RxCross2 />
+        </button>
 
-        <button className="myClose" onClick={onClose}><RxCross2 /></button>
+        <h2 className="loginTitle">Login to your account</h2>
 
-        {step === 1 && (
-          <>
-            <h2 className="login-title">Login to your account</h2>
+        <button className="googleBtn">
+          <FcGoogle />
+          Continue with Google
+        </button>
 
-            <button className="login-google-btn">
-              <FcGoogle />
-              <span>Continue with Google</span>
-            </button>
+        <div className="divider">or continue with email</div>
 
-            <div className="login-divider">
-              <span>or continue with mobile number</span>
-            </div>
+        <div className="inputWrap">
+          <input
+            type="email"
+            placeholder="Email address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
 
-            <div className="login-field mobile-field">
-              <span className="flag">🇮🇳</span>
-              <input
-                type="tel"
-                maxLength={10}
-                placeholder="Enter mobile number"
-                value={mobile}
-                onChange={(e) => setMobile(e.target.value)}
-              />
-            </div>
+        <div className="inputWrap passwordWrap">
+          <input
+            type={showPass ? "text" : "password"}
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <span onClick={() => setShowPass(!showPass)}>
+            {showPass ? <FiEyeOff /> : <FiEye />}
+          </span>
+        </div>
 
-            <button className="action-btn" onClick={sendOtp}>
-              Get OTP
-            </button>
+        <button className="loginBtn">Login</button>
 
-            <p className="tnc-text">
-              By continuing, you agree to our{" "}
-              <a href="#">Terms of Use</a> & <a href="#">Privacy Policy</a>.
-            </p>
-          </>
-        )}
-
-        {step === 2 && (
-          <>
-            <h2 className="login-title">Verify OTP</h2>
-            <p className="otp-sub">OTP sent to +91 {mobile}</p>
-
-            <input
-              className="otp-input"
-              type="tel"
-              maxLength={6}
-              placeholder="Enter 6-digit OTP"
-              value={otp}
-              onChange={(e) => setOtp(e.target.value)}
-            />
-
-            <button className="action-btn" onClick={verifyOtp}>
-              Verify & Continue
-            </button>
-
-            <button className="resend-btn" onClick={sendOtp}>
-              Resend OTP
-            </button>
-          </>
-        )}
-
+        <p className="switchText">
+          Don’t have an account?{" "}
+          <span onClick={onSwitch}>Create one</span>
+        </p>
       </div>
     </div>
   );

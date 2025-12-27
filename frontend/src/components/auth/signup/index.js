@@ -19,9 +19,6 @@ const SignupModal = ({ onClose, onSwitch }) => {
           <label>Email</label>
           <input type="email" placeholder="your@email.com" />
 
-          <label>Phone Number</label>
-          <input type="text" placeholder="(555) 123-4567" />
-
           <label>Password</label>
           <input type="password" placeholder="Create a strong password" />
 

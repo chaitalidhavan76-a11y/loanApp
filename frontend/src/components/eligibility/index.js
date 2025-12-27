@@ -7,17 +7,14 @@ const CheckEligibility = () => {
     income: 40000,
     existingEmi: 8000,
     employment: "salaried",
-    creditScore: "700"
+    creditScore: "700",
   });
 
   const handle = (key, value) => {
-    setData(prev => ({ ...prev, [key]: value }));
+    setData((prev) => ({ ...prev, [key]: value }));
   };
 
-  const getMultiplier = () => {
-    if (data.employment === "self") return 15;
-    return 20;
-  };
+  const getMultiplier = () => (data.employment === "self" ? 15 : 20);
 
   const creditScoreFactor = () => {
     if (data.creditScore === "750+") return 1.1;
@@ -26,34 +23,35 @@ const CheckEligibility = () => {
   };
 
   const calculateEligibility = () => {
-    const maxEmiAllowed = data.income * 0.5; 
+    const maxEmiAllowed = data.income * 0.5;
     const availableEmi = maxEmiAllowed - data.existingEmi;
-
     if (availableEmi <= 0) return 0;
-
-    const baseAmount = availableEmi * getMultiplier();
-    return Math.floor(baseAmount * creditScoreFactor());
+    return Math.floor(availableEmi * getMultiplier() * creditScoreFactor());
   };
 
-  const eligible = calculateEligibility() > 0;
+  const eligibleAmount = calculateEligibility();
+  const eligible = eligibleAmount > 0;
 
   return (
     <section className="elWrap">
-      <h2 className="elTitle">Loan Eligibility Calculator</h2>
+      <div className="elHeader">
+        <h1>Check Your Loan Eligibility</h1>
+        <p>Instant calculation · No impact on credit score</p>
+      </div>
 
       <div className="elRow">
-        <div className="elLeft">
+        <div className="elLeft card">
+          <h3>Your Details</h3>
 
           <div className="elField">
-            <label>My Monthly Income</label>
+            <label>Monthly Income (₹)</label>
             <input
-              className="elInput"
               type="number"
+              className="elInput"
               value={data.income}
               onChange={(e) => handle("income", +e.target.value)}
             />
             <input
-              className="elRange"
               type="range"
               min="15000"
               max="200000"
@@ -63,15 +61,14 @@ const CheckEligibility = () => {
           </div>
 
           <div className="elField">
-            <label>My Existing EMI</label>
+            <label>Existing EMIs (₹)</label>
             <input
-              className="elInput"
               type="number"
+              className="elInput"
               value={data.existingEmi}
               onChange={(e) => handle("existingEmi", +e.target.value)}
             />
             <input
-              className="elRange"
               type="range"
               min="0"
               max="80000"
@@ -82,122 +79,85 @@ const CheckEligibility = () => {
 
           <div className="elField">
             <label>Employment Type</label>
-            <select
-              className="elInput"
-              value={data.employment}
-              onChange={(e) => handle("employment", e.target.value)}
-            >
-              <option value="salaried">Salaried</option>
-              <option value="self">Self Employed</option>
-            </select>
+            <div className="selectWrap">
+              <select
+                className="elInput"
+                value={data.employment}
+                onChange={(e) => handle("employment", e.target.value)}
+              >
+                <option value="salaried">Salaried</option>
+                <option value="self">Self Employed</option>
+              </select>
+            </div>
           </div>
 
           <div className="elField">
             <label>Credit Score</label>
-            <select
-              className="elInput"
-              value={data.creditScore}
-              onChange={(e) => handle("creditScore", e.target.value)}
-            >
-              <option value="750+">750+</option>
-              <option value="700">650 – 750</option>
-              <option value="650">Below 650</option>
-            </select>
+            <div className="selectWrap">
+              <select
+                className="elInput"
+                value={data.creditScore}
+                onChange={(e) => handle("creditScore", e.target.value)}
+              >
+                <option value="750+">750+</option>
+                <option value="700">650 – 750</option>
+                <option value="650">Below 650</option>
+              </select>
+            </div>
           </div>
-
         </div>
 
         {/* RIGHT */}
-        <div className="elRight">
-          <h3 className="elSubtitle">Final Loan Amount Eligible</h3>
+        <div className="elRight card">
+          <h3>Eligible Loan Amount</h3>
 
-          <p className="elAmount">
-            ₹ {calculateEligibility().toLocaleString("en-IN")}
-          </p>
+          <div className={`elAmountBox ${eligible ? "ok" : "bad"}`}>
+            ₹ {eligibleAmount.toLocaleString("en-IN")}
+          </div>
 
           <p className={`elStatus ${eligible ? "ok" : "bad"}`}>
             {eligible
-              ? "You meet the eligibility criteria"
-              : "Eligibility not met due to high EMI or low credit score"}
+              ? "You are eligible for a personal loan"
+              : "Eligibility not met based on your inputs"}
           </p>
 
-          <Link to="/loan">
+          <Link to="/Offers">
             <button className="elBtn" disabled={!eligible}>
-              Apply Now
+              View Best Offers
             </button>
           </Link>
+
+          <p className="elNote">
+            * Final approval depends on bank verification
+          </p>
         </div>
       </div>
 
       <div className="elCriteria">
-        <h4>Loan Eligibility Criteria</h4>
+        <h4>Eligibility Criteria</h4>
         <ul>
-          <li><GoDotFill />Minimum income: ₹15,000/month</li>
-          <li><GoDotFill />Age: 21 – 60 years</li>
-          <li><GoDotFill />Credit score: 650+</li>
-          <li><GoDotFill />Existing EMI should be below 50% of income</li>
-          <li><GoDotFill />Stable employment required</li>
+          <li><GoDotFill /> Income above ₹15,000/month</li>
+          <li><GoDotFill /> Age between 21 – 60 years</li>
+          <li><GoDotFill /> Credit score 650+</li>
+          <li><GoDotFill /> EMIs below 50% of income</li>
         </ul>
       </div>
       <section className="eligibility-info">
-        <h2>What is Loan Eligibility?</h2>
-        <p>
-          Loan eligibility refers to the maximum loan amount a customer can get
-          based on income, existing financial obligations, and repayment capacity.
-        </p>
-
+        <h2>How Loan Eligibility is Calculated</h2>
         <div className="eligibility-grid">
           <div className="eligibility-card">
-            <h4>Monthly Income</h4>
-            <p>
-              Higher income increases loan eligibility. Banks use income to
-              calculate your repayment capacity.
-            </p>
+            <h4>Income</h4>
+            <p>Higher income increases your repayment capacity.</p>
+          </div> <div className="eligibility-card">
+            <h4>Existing EMIs</h4> <p>Lower EMIs help qualify for higher loans.</p>
           </div>
-
-          <div className="eligibility-card">
-            <h4>Existing EMIs</h4>
-            <p>
-              Your current EMIs are deducted from income to ensure you can manage
-              new loan repayments comfortably.
-            </p>
-          </div>
-
-          <div className="eligibility-card">
-            <h4>FOIR (Fixed Obligation to Income Ratio)</h4>
-            <p>
-              Banks usually allow total EMIs up to 50–60% of monthly income to
-              avoid over-borrowing.
-            </p>
-          </div>
-
           <div className="eligibility-card">
             <h4>Credit Score</h4>
-            <p>
-              A good credit score improves approval chances and helps get better
-              interest rates.
-            </p>
+            <p>Good score unlocks better interest rates.</p>
+          </div> <div className="eligibility-card">
+            <h4>Employment</h4>
+            <p>Salaried users usually get higher eligibility.</p>
           </div>
-
-          <div className="eligibility-card">
-            <h4>Employment Type</h4>
-            <p>
-              Salaried applicants generally receive higher eligibility compared
-              to self-employed applicants.
-            </p>
-          </div>
-
-          <div className="eligibility-card">
-            <h4>Loan Tenure</h4>
-            <p>
-              Longer tenure reduces EMI, increasing overall loan eligibility.
-            </p>
-          </div>
-        </div>
-
-        <div className="eligibility-note">
-          <strong>Note:</strong> Eligibility shown is indicative. Final approval
-          depends on bank verification and documents.
         </div>
       </section>
     </section>
