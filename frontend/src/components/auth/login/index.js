@@ -4,9 +4,61 @@ import { RxCross2 } from "react-icons/rx";
 import { FiEye, FiEyeOff } from "react-icons/fi";
 
 const LoginModal = ({ onClose, onSwitch }) => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPass, setShowPass] = useState(false);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+    setError("");
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+
+    if (!formData.email || !formData.password) {
+      setError("Please enter email and password");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Login failed');
+      }
+
+      // Store token in localStorage
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+
+      alert("Login successful!");
+      onClose(); // Close modal
+      window.location.reload(); // Refresh to update UI
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="myOverlay" onClick={onClose}>
@@ -15,41 +67,54 @@ const LoginModal = ({ onClose, onSwitch }) => {
           <RxCross2 />
         </button>
 
-        <h2 className="loginTitle">Login to your account</h2>
+        <h2 className="login-title">Login to your account</h2>
 
-        <button className="googleBtn">
+        <button className="login-google-btn">
           <FcGoogle />
-          Continue with Google
+          <span>Continue with Google</span>
         </button>
 
-        <div className="divider">or continue with email</div>
-
-        <div className="inputWrap">
-          <input
-            type="email"
-            placeholder="Email address"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+        <div className="login-divider">
+          <span>or login with email</span>
         </div>
 
-        <div className="inputWrap passwordWrap">
-          <input
-            type={showPass ? "text" : "password"}
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <span onClick={() => setShowPass(!showPass)}>
-            {showPass ? <FiEyeOff /> : <FiEye />}
-          </span>
-        </div>
+        {error && <div className="error-message" style={{color: 'red', marginBottom: '10px'}}>{error}</div>}
 
-        <button className="loginBtn">Login</button>
+        <form onSubmit={handleSubmit}>
+          <div className="login-field">
+            <input
+              type="email"
+              name="email"
+              placeholder="Enter your email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-        <p className="switchText">
-          Don’t have an account?{" "}
-          <span onClick={onSwitch}>Create one</span>
+          <div className="login-field">
+            <input
+              type="password"
+              name="password"
+              placeholder="Enter your password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <button className="action-btn" type="submit" disabled={loading}>
+            {loading ? 'Logging in...' : 'Login'}
+          </button>
+        </form>
+
+        <p className="mySwitch" style={{marginTop: '15px', textAlign: 'center'}}>
+          Don't have an account? <span onClick={onSwitch} style={{color: '#007bff', cursor: 'pointer'}}>Sign up</span>
+        </p>
+
+        <p className="tnc-text">
+          By continuing, you agree to our{" "}
+          <a href="#">Terms of Use</a> & <a href="#">Privacy Policy</a>.
         </p>
       </div>
     </div>
