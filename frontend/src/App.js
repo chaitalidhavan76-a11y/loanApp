@@ -31,49 +31,57 @@ import AdminLayout from '../src/Admin/adminLayout.js';
 import AdminLogin from './Admin/pages/login/index.js';
 import AdminRegister from './Admin/pages/register/index.js';
 import BestOffers from './components/bestOffers/index.js';
+import UserDashboard from './userDashboard/user.js';
 
 
 
 function App() {
   const location = useLocation();
+
   const isAdminRoute = location.pathname.startsWith("/admin");
+  const isDashboardRoute = location.pathname.startsWith("/dashboard");
+
   return (
     <>
       <ScrollToTop />
+
+      {/* Header: show on website + dashboard, hide on admin */}
       {!isAdminRoute && <Header />}
+
       <Routes location={location} key={location.pathname}>
-        <Route path='/' exact={true} element={<Home />}></Route>
-        <Route path='/loan' exact={true} element={<LoanDetails />}></Route>
-        <Route path='/personalInfo' exact={true} element={<PersonalInfo />}></Route>
-        <Route path='/financialInfo' exact={true} element={<FinancialInfo />}></Route>
-        <Route path='/About' exact={true} element={<AboutUs />}></Route>
-        <Route path='/loanPages' exact={true} element={<ServicePage />}></Route>
-        <Route path='/homeLoan' exact={true} element={<HomeLoan />}></Route>
-        <Route path='/homeApply' exact={true} element={<HomeLoanApplication />}></Route>
-        <Route path='/autoLoan' exact={true} element={<AutoLoan />}></Route>
-        <Route path='/autoApply' exact={true} element={<AutoLoanApplication />}></Route>
-        <Route path='/studentApply' exact={true} element={<StudentLoanApplication />}></Route>
-        <Route path='/studentLoan' exact={true} element={<StudentLoan />}></Route>
-        <Route path='/businessLoan' exact={true} element={<BusinessLoan />}></Route>
-        <Route path='/businessApply' exact={true} element={<BusinessLoanApplication />}></Route>
-        <Route path='/personalLoan' exact={true} element={<PersonalLoan />}></Route>
-        <Route path='/personalApply' exact={true} element={<PersonalLoanApplication />}></Route>
-        <Route path='/contact' exact={true} element={<ContactUs />}></Route>
-        <Route path='/eligible' exact={true} element={<CheckEligibility />}></Route>
-        <Route path='/calcy' exact={true} element={<LoanCalculator />}></Route>
-        <Route path='/results' element={<LoanOffers />} />
-        <Route path='/Offers' element={<BestOffers />} />
-        <Route path='/check-credit-score' element={<CheckCreditScore />} />
-        <Route
-          path="/credit-result"
-          element={<CheckCreditScoreResult />}
-        />
+        <Route path="/dashboard" element={<UserDashboard />} />
+
+        <Route path="/" element={<Home />} />
+        <Route path="/loan" element={<LoanDetails />} />
+        <Route path="/personalInfo" element={<PersonalInfo />} />
+        <Route path="/financialInfo" element={<FinancialInfo />} />
+        <Route path="/About" element={<AboutUs />} />
+        <Route path="/loanPages" element={<ServicePage />} />
+        <Route path="/homeLoan" element={<HomeLoan />} />
+        <Route path="/homeApply" element={<HomeLoanApplication />} />
+        <Route path="/autoLoan" element={<AutoLoan />} />
+        <Route path="/autoApply" element={<AutoLoanApplication />} />
+        <Route path="/studentLoan" element={<StudentLoan />} />
+        <Route path="/studentApply" element={<StudentLoanApplication />} />
+        <Route path="/businessLoan" element={<BusinessLoan />} />
+        <Route path="/businessApply" element={<BusinessLoanApplication />} />
+        <Route path="/personalLoan" element={<PersonalLoan />} />
+        <Route path="/personalApply" element={<PersonalLoanApplication />} />
+        <Route path="/contact" element={<ContactUs />} />
+        <Route path="/eligible" element={<CheckEligibility />} />
+        <Route path="/calcy" element={<LoanCalculator />} />
+        <Route path="/results" element={<LoanOffers />} />
+        <Route path="/Offers" element={<BestOffers />} />
+        <Route path="/check-credit-score" element={<CheckCreditScore />} />
+        <Route path="/credit-result" element={<CheckCreditScoreResult />} />
 
         <Route path="/admin/*" element={<AdminLayout />} />
         <Route path="/admin-login" element={<AdminLogin />} />
         <Route path="/admin-register" element={<AdminRegister />} />
       </Routes>
-      {!isAdminRoute && <Footer />}
+
+      {/* Footer: hide on admin + dashboard */}
+      {!isAdminRoute && !isDashboardRoute && <Footer />}
     </>
   );
 }
