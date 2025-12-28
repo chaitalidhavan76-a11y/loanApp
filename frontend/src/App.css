@@ -2623,22 +2623,8 @@ input[type=range] {
   color: #6b7280;
 }
 
-.switch-text {
-  text-align: center;
-  margin-top: 16px;
-  font-size: 14px;
-  color: #374151;
-}
-
-.switch-text span {
-  color: #2563eb;
-  font-weight: 600;
-  cursor: pointer;
-}
 
 .myForm {
-  display: flex;
-  flex-direction: column;
   gap: 14px;
 }
 
@@ -2696,7 +2682,6 @@ input[type=range] {
   background: #1e4fd6;
 }
 
-/* SWITCH TEXT */
 .mySwitch {
   margin-top: 16px;
   font-size: 14px;

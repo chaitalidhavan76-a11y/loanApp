@@ -82,10 +82,9 @@ const SignupModal = ({ onClose, onSwitch }) => {
 
         <h2 className="myTitle">Create an Account</h2>
         <p className="mySubtitle">
-          Join us today to sell your gold or apply for gold loans easily.
-        </p>
+          Compare and apply for the best loan offers in one place.        </p>
 
-        {error && <div className="error-message" style={{color: 'red', marginBottom: '10px'}}>{error}</div>}
+        {error && <div className="error-message" style={{ color: 'red', marginBottom: '10px' }}>{error}</div>}
 
         <form className="myForm" onSubmit={handleSubmit}>
           <label>Full Name *</label>
@@ -106,15 +105,6 @@ const SignupModal = ({ onClose, onSwitch }) => {
             value={formData.email}
             onChange={handleChange}
             required
-          />
-
-          <label>Phone Number</label>
-          <input
-            type="text"
-            name="phone"
-            placeholder="(555) 123-4567"
-            value={formData.phone}
-            onChange={handleChange}
           />
 
           <label>Password *</label>
@@ -146,7 +136,7 @@ const SignupModal = ({ onClose, onSwitch }) => {
             I agree to the Terms & Conditions and Privacy Policy.
           </div>
 
-          <button type="submit" className="myButton" disabled={loading}>
+          <button type="submit" className="loginBtn" disabled={loading}>
             {loading ? 'Creating Account...' : 'Create Account'}
           </button>
         </form>
