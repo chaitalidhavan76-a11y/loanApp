@@ -9,5 +9,4 @@ const redisClient = new Redis({
     retryStrategy: (times) => {
         const delay = Math.min(times * )
     }
-
 })
