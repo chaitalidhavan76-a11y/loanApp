@@ -14,6 +14,7 @@ import loanRoutes from "./src/routes/loanRoutes.js";
 import lenderRoutes from "./src/routes/lenderRoutes.js";
 import applicationRoutes from "./src/routes/applicationRoutes.js"; 
 import { errorHandler } from "./src/middleware/error.js";
+import adminRoutes from "./src/routes/adminRoutes.js"; // NEW
 
 const app = express();
 
@@ -38,7 +39,7 @@ app.get("/api/health", (_req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/loans", loanRoutes);
 app.use("/api/lenders", lenderRoutes);
-app.use("/api/applications", applicationRoutes); 
+app.use("/api/applications", applicationRoutes); // NEW - Home Loan
 
 // Error handler
 app.use(errorHandler);
