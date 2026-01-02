@@ -40,6 +40,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/loans", loanRoutes);
 app.use("/api/lenders", lenderRoutes);
 app.use("/api/applications", applicationRoutes); // NEW - Home Loan
+app.use("/api/admin", adminRoutes);
 
 // Error handler
 app.use(errorHandler);

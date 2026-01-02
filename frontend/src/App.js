@@ -33,6 +33,8 @@ import AdminRegister from './Admin/pages/register/index.js';
 import BestOffers from './components/bestOffers/index.js';
 import UserDashboard from './userDashboard/user.js';
 
+import Me from "./userDashboard/me.js"
+
 
 
 function App() {
@@ -52,6 +54,7 @@ function App() {
         <Route path="/dashboard" element={<UserDashboard />} />
 
         <Route path="/" element={<Home />} />
+        <Route path="/me" element={<Me />} />
         <Route path="/loan" element={<LoanDetails />} />
         <Route path="/personalInfo" element={<PersonalInfo />} />
         <Route path="/financialInfo" element={<FinancialInfo />} />

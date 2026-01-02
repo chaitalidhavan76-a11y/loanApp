@@ -1,20 +1,34 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
 
 export default function AdminLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     if (email && password) {
-      localStorage.setItem("adminToken", "dummyAdminAuth");
-      navigate("/admin"); 
+      try {
+        const response = await axios.post("http://localhost:5000/api/admin/admin-login", { email, password });
+        localStorage.setItem("adminToken", response.data.token);
+        alert("Admin Logged in successfully");
+        navigate("/admin/*");
+      } catch (error) {
+        console.error("Login failed:", error);
+        alert("Invalid email or password");
+        navigate("/admin-login");
+        return;
+      }
     } else {
       alert("Please enter email & password");
+      navigate("/admin-login");
+      return;
     }
+    navigate("/admin"); 
+    return;
   };
 
   return (
@@ -38,9 +52,9 @@ export default function AdminLogin() {
 
         <button type="submit" className="auth-btn">Login</button>
 
-        <p className="auth-text">
+        {/* <p className="auth-text">
           New Admin? <Link to="/admin-register">Register</Link>
-        </p>
+        </p> */}
       </form>
     </div>
   );
