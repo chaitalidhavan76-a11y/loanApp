@@ -1,4 +1,4 @@
-import Application from "../models/Application.js"; // Fixed: models (plural)
+import Application from "../models/homeloan.js"; 
 
 // @desc    Submit a new home loan application
 // @route   POST /api/applications
