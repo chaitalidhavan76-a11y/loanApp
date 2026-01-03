@@ -1,6 +1,11 @@
+
 import mongoose from "mongoose";
 
+<<<<<<< HEAD
 const autoloanSchema = new mongoose.Schema(
+=======
+const autoLoanSchema = new mongoose.Schema(
+>>>>>>> 7a71cc81e5666ec013130386ee0d48ead7d1c7a3
   {
     // User reference
     userId: {
@@ -37,7 +42,11 @@ const autoloanSchema = new mongoose.Schema(
 
     vehicleType: {
       type: String,
+<<<<<<< HEAD
       enum: ["car", "bike", "scooter"],
+=======
+      enum: ["car", "bike", "scooter", "truck", "suv", "other"],
+>>>>>>> 7a71cc81e5666ec013130386ee0d48ead7d1c7a3
       required: [true, "Vehicle type is required"],
     },
 
@@ -55,13 +64,14 @@ const autoloanSchema = new mongoose.Schema(
 
     employmentStatus: {
       type: String,
-      enum: ["Salaried", "Self-Employed", "Business"],
-      required: [true, "Employement Status is required"],
+      enum: ["salaried", "self-employed", "business"],
+      required: [true, "Employment status is required"],
     },
 
     monthlyIncome: {
       type: Number,
       required: [true, "Monthly income is required"],
+      min: [0, "Monthly income must be positive"],
     },
 
     // Application status
@@ -75,10 +85,37 @@ const autoloanSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+<<<<<<< HEAD
+=======
+
+    rejectionReason: {
+      type: String,
+      default: "",
+    },
+
+    reviewedAt: {
+      type: Date,
+    },
+
+    reviewedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+>>>>>>> 7a71cc81e5666ec013130386ee0d48ead7d1c7a3
   },
   {
     timestamps: true,
   }
 );
 
+<<<<<<< HEAD
 export default mongoose.model("AutoLoan", autoloanSchema);
+=======
+// Indexes for better query performance
+autoLoanSchema.index({ userId: 1, createdAt: -1 });
+autoLoanSchema.index({ status: 1 });
+
+const AutoLoan = mongoose.model("AutoLoan", autoLoanSchema);
+
+export default AutoLoan;
+>>>>>>> 7a71cc81e5666ec013130386ee0d48ead7d1c7a3
