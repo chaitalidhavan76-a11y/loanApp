@@ -2,6 +2,7 @@ import { useState } from "react";
 import { FcGoogle } from "react-icons/fc";
 import { RxCross2 } from "react-icons/rx";
 import { FiEye, FiEyeOff } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 const LoginModal = ({ onClose, onSwitch }) => {
   const [formData, setFormData] = useState({
@@ -11,7 +12,7 @@ const LoginModal = ({ onClose, onSwitch }) => {
 
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const navigate = useNavigate();
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -126,9 +127,16 @@ const LoginModal = ({ onClose, onSwitch }) => {
           </span>
         </p>
 
+        <p
+          className="switchText"
+          style={{ marginTop: "15px", textAlign: "center" }}
+        >
+          <span onClick={() => navigate("/admin-login")}>Admin Login</span>
+        </p>
+
         <p className="terms">
-          By continuing, you agree to our{" "}
-          <a href="#">Terms of Use</a> & <a href="#">Privacy Policy</a>.
+          By continuing, you agree to our <a href="#">Terms of Use</a> &{" "}
+          <a href="#">Privacy Policy</a>.
         </p>
       </div>
     </div>
