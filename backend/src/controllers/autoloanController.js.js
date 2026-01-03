@@ -12,7 +12,17 @@ export const createAutoloan = async (req, res) => {
       vehicleType,
       vehiclePrice,
       loanAmount,
+      employmentStatus,
+      monthlyIncome,
     } = req.body;
+
+    // Validation
+    if (!fullName || !email || !phone || !vehicleType || !vehiclePrice || !loanAmount || !employmentStatus || !monthlyIncome) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide all required fields",
+      });
+    }
 
     // Create auto loan application
     const autoloan = await AutoLoan.create({
@@ -24,12 +34,14 @@ export const createAutoloan = async (req, res) => {
       vehicleType,
       vehiclePrice,
       loanAmount,
+      employmentStatus,
+      monthlyIncome,
     });
 
     res.status(201).json({
       success: true,
       message: "Auto loan application submitted successfully!",
-      data: autoloan, // Fixed: was "application"
+      data: autoloan,
     });
   } catch (error) {
     console.error("Error creating auto loan application:", error);
@@ -49,7 +61,7 @@ export const getMyAutoloan = async (req, res) => {
     const autoloans = await AutoLoan.find({
       userId: req.user._id,
       loanType: "auto"
-    }).sort({ createdAt: -1 }); // Fixed: was "cratedAt"
+    }).sort({ createdAt: -1 });
 
     res.status(200).json({
       success: true,
@@ -140,11 +152,13 @@ export const updateAutoloanApplication = async (req, res) => {
       "vehicleType",
       "vehiclePrice",
       "loanAmount",
+      "employmentStatus",
+      "monthlyIncome",
     ];
 
     allowedUpdates.forEach((field) => {
       if (req.body[field] !== undefined) {
-        autoloan[field] = req.body[field]; // Fixed: was "filed"
+        autoloan[field] = req.body[field];
       }
     });
 
