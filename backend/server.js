@@ -13,8 +13,9 @@ import authRoutes from "./src/routes/auth.routes.js";
 import loanRoutes from "./src/routes/loanRoutes.js";
 import lenderRoutes from "./src/routes/lenderRoutes.js";
 import applicationRoutes from "./src/routes/applicationRoutes.js"; 
+import adminRoutes from "./src/routes/adminRoutes.js"; // Admin routes
 import { errorHandler } from "./src/middleware/error.js";
-import adminRoutes from "./src/routes/adminRoutes.js"; // NEW
+import autoloanRoutes from "./src/routes/autoRoutes.js";
 
 const app = express();
 
@@ -39,7 +40,9 @@ app.get("/api/health", (_req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/loans", loanRoutes);
 app.use("/api/lenders", lenderRoutes);
-app.use("/api/applications", applicationRoutes); // NEW - Home Loan
+app.use("/api/applications", applicationRoutes);
+app.use("/api/applications/auto", autoloanRoutes);
+app.use("/api/admin", adminRoutes); // Admin panel routes
 
 // Error handler
 app.use(errorHandler);

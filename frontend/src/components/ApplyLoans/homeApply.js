@@ -102,7 +102,7 @@ const HomeLoanApplication = () => {
           borderRadius: '4px'
         }}>
           ⚠️ {error}
-        </div>
+        </div>          
       )}
 
       {/* Success Message */}

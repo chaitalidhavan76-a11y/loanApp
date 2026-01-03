@@ -1,67 +1,88 @@
 import mongoose from "mongoose";
 
-const autoloanSchema = new mongoose.Schema(
-    {
-        //User reference
-        userId: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
-            required: true,
-        },
-
-        loanType: {
-            type: String,
-            default: "home",
-            enum: ["home"],
-        },
-        //personal information ;
-        fullName:{
-            type: String,
-            required: [true, "Full name is required"],
-            trim: true,
-        },
-        email: {
-            type: String,
-            required: [true, "Email is required"],
-            trim: true,
-            lowercase: true,
-
-        },
-        phone: {
-         type: String,
-         required: [true, "Phone number is required"],
-         trim: true,
-        },
-        vehicleType: {
-            type: String,
-            enum: ["car", "Bike", "Scooter"],
-            required: [true, "vehicleType is required"],
-
-        },
-        vehiclePrice:{
-            required: [true, "vehicle price is required"],
-            min: [0,"Price above 0"],
-        },
-        loanAmount: {
-            type: Number,
-            required: [true, "loanAmount is required"],
-            enum:[1000, "Loan Amount is required"],
-
-        },
-        //Application status,
-        status: {
-            type: String,
-            enum: ["pending", "under-review", "approved", "rejected"],
-            default: "pending",
-        },
-        adminNotes: {
-            type:String,
-            default: "",
-        },
-
+const autoLoanSchema = new mongoose.Schema(
+  {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
     },
-    {
-        timestamps: true,  //Automatically adds createdAt and updatedAt
-    }
+
+    // FIXED: Removed enum restriction, or use correct enum values
+    loanType: {
+      type: String,
+      default: "auto",
+      // No enum - allows any value
+    },
+
+    fullName: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+
+    email: {
+      type: String,
+      required: true,
+      lowercase: true,
+      trim: true,
+    },
+
+    phone: {
+      type: String,
+      required: true,
+    },
+
+    vehicleType: {
+      type: String,
+      required: true,
+      enum: ["car", "bike", "truck", "suv", "other"],
+    },
+
+    vehiclePrice: {
+      type: Number,
+      required: true,
+    },
+
+    loanAmount: {
+      type: Number,
+      required: true,
+    },
+
+    status: {
+      type: String,
+      enum: ["pending", "under_review", "approved", "rejected"],
+      default: "pending",
+    },
+
+    adminNotes: {
+      type: String,
+      default: "",
+    },
+
+    rejectionReason: {
+      type: String,
+      default: "",
+    },
+
+    reviewedAt: {
+      type: Date,
+    },
+
+    reviewedBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+  },
+  {
+    timestamps: true,
+  }
 );
-export default mongoose.model("AutoLoan", autoloanSchema);
+
+// Indexes for better query performance
+autoLoanSchema.index({ userId: 1, createdAt: -1 });
+autoLoanSchema.index({ status: 1 });
+
+const AutoLoan = mongoose.model("AutoLoan", autoLoanSchema);
+
+export default AutoLoan;

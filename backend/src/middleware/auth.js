@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 import Lender from "../models/Lender.js";
-import User from "../models/User.js"; // Add this import
+import User from "../models/User.js";
 import { env } from "../config/env.js";
 
 // Existing lender authentication
@@ -27,19 +27,32 @@ export const lenderAuth = async (req, res, next) => {
   }
 };
 
-// NEW: User authentication for loan applications
+// FIXED: User authentication - now supports both Cookie and Bearer token
 export const authenticate = async (req, res, next) => {
   try {
-    const header = req.headers.authorization || "";
-    const token = header.startsWith("Bearer ") ? header.slice(7) : "";
+    let token;
 
+    // Method 1: Check for token in Cookie header
+    if (req.cookies && req.cookies.token) {
+      token = req.cookies.token;
+      console.log("✅ Token found in cookies");
+    }
+    // Method 2: Check for token in Authorization Bearer header
+    else if (req.headers.authorization && req.headers.authorization.startsWith("Bearer ")) {
+      token = req.headers.authorization.slice(7);
+      console.log("✅ Token found in Authorization header");
+    }
+
+    // If no token found
     if (!token) {
+      console.log("❌ No token found in cookies or headers");
       return res.status(401).json({ 
         success: false,
         message: "Not authorized, no token provided" 
       });
     }
 
+    // Verify token
     const decoded = jwt.verify(token, env.jwtSecret);
 
     // Find user by ID from token
@@ -53,11 +66,17 @@ export const authenticate = async (req, res, next) => {
     }
 
     req.user = user; // Attach full user object to request
+    console.log("✅ User authenticated:", user.email);
     next();
   } catch (err) {
+    console.error("❌ Auth error:", err.message);
     return res.status(401).json({ 
       success: false,
-      message: "Not authorized, token failed" 
+      message: "Not authorized, token failed",
+      error: err.message
     });
   }
 };
+
+// Alias for backwards compatibility
+export const protect = authenticate;
