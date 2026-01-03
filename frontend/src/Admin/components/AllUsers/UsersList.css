@@ -1,0 +1,120 @@
+/* Reset + base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+body {
+  background-color: #f4f6fb;
+  color: #1f2937;
+}
+
+/* Page container */
+.users-page {
+  padding: 30px 40px;
+}
+
+/* Page title */
+.users-page h1 {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 25px;
+}
+
+/* Error message */
+.error-text {
+  background-color: #fee2e2;
+  color: #991b1b;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  font-size: 15px;
+}
+
+/* Table card */
+.table-wrapper {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 20px 24px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+  overflow-x: auto;
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Table header */
+thead th {
+  text-align: left;
+  padding: 14px 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #6b7280;
+  border-bottom: 1px solid #e5e7eb;
+  white-space: nowrap;
+}
+
+/* Table body */
+tbody td {
+  padding: 14px 12px;
+  font-size: 15px;
+  color: #374151;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+/* Row hover */
+tbody tr:hover {
+  background-color: #f9fafb;
+}
+
+/* First column (Name) emphasis */
+tbody td:first-child {
+  font-weight: 600;
+  color: #111827;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .users-page {
+    padding: 20px;
+  }
+
+  thead {
+    display: none;
+  }
+
+  table,
+  tbody,
+  tr,
+  td {
+    display: block;
+    width: 100%;
+  }
+
+  tr {
+    margin-bottom: 16px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.05);
+  }
+
+  td {
+    padding: 12px 16px;
+    text-align: right;
+    position: relative;
+  }
+
+  td::before {
+    content: attr(data-label);
+    position: absolute;
+    left: 16px;
+    font-weight: 600;
+    color: #6b7280;
+    text-align: left;
+  }
+}

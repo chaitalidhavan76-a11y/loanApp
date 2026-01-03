@@ -8,6 +8,7 @@ import Settings from '../Admin/pages/settings';
 
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import UsersList from "./components/AllUsers/UsersList";
 
 function AdminLayout() {
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
@@ -29,6 +30,7 @@ function AdminLayout() {
         <Routes>
           <Route path="overview" element={<Overview />} />
           <Route path="applications" element={<Applications />} />
+          <Route path="users" element={<UsersList />} />
           <Route path="query" element={<Queries />} />
           <Route path="settings" element={<Settings theme={theme} setTheme={setTheme} />} />
 

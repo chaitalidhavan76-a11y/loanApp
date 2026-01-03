@@ -40,14 +40,8 @@ app.get("/api/health", (_req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/loans", loanRoutes);
 app.use("/api/lenders", lenderRoutes);
-<<<<<<< HEAD
-app.use("/api/applications", applicationRoutes);
-app.use("/api/applications/auto", autoloanRoutes);
-app.use("/api/admin", adminRoutes); // Admin panel routes
-=======
 app.use("/api/applications", applicationRoutes); // NEW - Home Loan
 app.use("/api/admin", adminRoutes);
->>>>>>> 7bfdd9d425fa9aa88efe63777d1b72556d07bb96
 
 // Error handler
 app.use(errorHandler);
