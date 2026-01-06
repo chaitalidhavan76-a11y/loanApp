@@ -1,14 +1,21 @@
 import dotenv from "dotenv";
-dotenv.config(); // Load env first
+dotenv.config();
 
-import { env } from "./src/config/env.js";
 import express from "express";
-import cors from "cors"; // ES6 import only
+import cors from "cors";
 import cookieParser from "cookie-parser";
 import { connectDB } from "./src/config/db.js";
 import { logger } from "./src/utils/logger.js";
+import { env } from "./src/config/env.js";
+
+// Import routes
 import authRoutes from "./src/routes/auth.routes.js";
-import bcrypt from "bcryptjs";
+import loanRoutes from "./src/routes/loanRoutes.js";
+import lenderRoutes from "./src/routes/lenderRoutes.js";
+import applicationRoutes from "./src/routes/applicationRoutes.js"; 
+import adminRoutes from "./src/routes/adminRoutes.js"; // Admin routes
+import { errorHandler } from "./src/middleware/error.js";
+import autoloanRoutes from "./src/routes/autoRoutes.js";
 
 const app = express();
 
@@ -16,7 +23,7 @@ const app = express();
 app.use(
   cors({
     origin: ["http://localhost:3000"],
-    methods: ["GET", "POST", "PATCH", "DELETE"],
+    methods: ["GET", "POST", "PATCH", "DELETE", "PUT"],
     credentials: true,
   })
 );
@@ -24,8 +31,29 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 
+// Health check
+app.get("/api/health", (_req, res) => {
+  res.json({ status: "ok" });
+});
+
 // Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/loans", loanRoutes);
+app.use("/api/lenders", lenderRoutes);
+<<<<<<< HEAD
+app.use("/api/applications", applicationRoutes); // NEW - Home Loan
+app.use("/api/admin", adminRoutes);
+=======
+
+app.use("/api/applications", applicationRoutes);
+app.use("/api/applications/auto", autoloanRoutes);
+app.use("/api/admin", adminRoutes); // Admin panel routes
+
+
+>>>>>>> 7a71cc81e5666ec013130386ee0d48ead7d1c7a3
+
+// Error handler
+app.use(errorHandler);
 
 // Start server
 const start = async () => {

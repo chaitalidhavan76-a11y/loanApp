@@ -35,6 +35,8 @@ import UserDashboard from './userDashboard/userLayout.js';
 import DsaLayout from './DSAdashboard/dsaLayout.js';
 import AdminApp from './adminDashboard/admin.js';
 
+import Me from "./userDashboard/me.js"
+
 
 
 function App() {
@@ -60,6 +62,7 @@ function App() {
 
 
         <Route path="/" element={<Home />} />
+        <Route path="/me" element={<Me />} />
         <Route path="/loan" element={<LoanDetails />} />
         <Route path="/personalInfo" element={<PersonalInfo />} />
         <Route path="/financialInfo" element={<FinancialInfo />} />

@@ -4,6 +4,7 @@ import helmet from "helmet";
 
 import loanRoutes from "./routes/loanRoutes.js";
 import lenderRoutes from "./routes/lenderRoutes.js";
+import applicationRoutes from "./routes/applicationRoutes.js";
 import { errorHandler } from "./middleware/error.js";
 
 const app = express();
@@ -24,6 +25,7 @@ app.get("/api/health", (_req, res) => {
 
 app.use("/api/loans", loanRoutes);
 app.use("/api/lenders", lenderRoutes);
+app.use("/api/applications", applicationRoutes);
 
 app.use(errorHandler);
 

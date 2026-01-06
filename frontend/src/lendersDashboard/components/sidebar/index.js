@@ -5,6 +5,7 @@ import { MdDashboard } from "react-icons/md";
 import { RiFileList2Line } from "react-icons/ri";
 import { BiMessageDetail } from "react-icons/bi";
 import { FiSettings, FiLogOut } from "react-icons/fi";
+import { FaUsers } from "react-icons/fa";
 
 export default function Sidebar({ setAuth }) {
   const location = useLocation();
@@ -29,6 +30,10 @@ export default function Sidebar({ setAuth }) {
 
         <li className={isActive("/lender/applications") ? "active" : ""}>
           <Link to="/lender/applications"><RiFileList2Line /> Applications</Link>
+        </li>
+
+        <li className={isActive("/admin/users") ? "active" : ""}>
+          <Link to="/admin/users"><FaUsers />Users</Link>
         </li>
 
         {/*<li className={isActive("/admin/query") ? "active" : ""}>
