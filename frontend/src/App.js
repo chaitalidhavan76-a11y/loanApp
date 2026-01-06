@@ -27,29 +27,37 @@ import LoanCalculator from './components/loanCalculator/index.js';
 import LoanOffers from '../src/components/viewresults/index.js';
 
 import { Routes, Route, useLocation } from "react-router-dom";
-import AdminLayout from '../src/Admin/adminLayout.js';
-import AdminLogin from './Admin/pages/login/index.js';
-import AdminRegister from './Admin/pages/register/index.js';
+import LenderLayout from './lendersDashboard/lenderLayout.js';
+import LenderLogin from './lendersDashboard/pages/login';
+import LenderRegister from './lendersDashboard/pages/register';
 import BestOffers from './components/bestOffers/index.js';
-import UserDashboard from './userDashboard/user.js';
+import UserDashboard from './userDashboard/userLayout.js';
+import DsaLayout from './DSAdashboard/dsaLayout.js';
+import AdminApp from './adminDashboard/admin.js';
 
 
 
 function App() {
   const location = useLocation();
 
-  const isAdminRoute = location.pathname.startsWith("/admin");
+  const isLenderRoute = location.pathname.startsWith("/lender");
   const isDashboardRoute = location.pathname.startsWith("/dashboard");
+  const isDsaRoute = location.pathname.startsWith("/dsa");
+  const isadminRoute = location.pathname.startsWith("/admin");
+
+
+
 
   return (
     <>
       <ScrollToTop />
 
       {/* Header: show on website + dashboard, hide on admin */}
-      {!isAdminRoute && <Header />}
+      {!isLenderRoute && !isDsaRoute && !isadminRoute && <Header />}
 
       <Routes location={location} key={location.pathname}>
         <Route path="/dashboard" element={<UserDashboard />} />
+
 
         <Route path="/" element={<Home />} />
         <Route path="/loan" element={<LoanDetails />} />
@@ -75,13 +83,19 @@ function App() {
         <Route path="/check-credit-score" element={<CheckCreditScore />} />
         <Route path="/credit-result" element={<CheckCreditScoreResult />} />
 
-        <Route path="/admin/*" element={<AdminLayout />} />
-        <Route path="/admin-login" element={<AdminLogin />} />
-        <Route path="/admin-register" element={<AdminRegister />} />
+        <Route path="/lender/*" element={<LenderLayout />} />
+        <Route path="/lender-login" element={<LenderLogin />} />
+        <Route path="/lender-register" element={<LenderRegister />} />
+
+
+        <Route path="/dsa" element={<DsaLayout />} />
+
+        <Route path="/admin" element={<AdminApp />} />
+
       </Routes>
 
       {/* Footer: hide on admin + dashboard */}
-      {!isAdminRoute && !isDashboardRoute && <Footer />}
+      {!isLenderRoute && !isDashboardRoute && !isDsaRoute && !isadminRoute && <Footer />}
     </>
   );
 }

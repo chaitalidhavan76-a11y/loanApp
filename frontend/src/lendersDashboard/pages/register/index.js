@@ -10,10 +10,10 @@ export default function AdminRegister() {
     e.preventDefault();
 
     if (email && password) {
-      localStorage.setItem("adminEmail", email);
-      localStorage.setItem("adminPassword", password);
-      alert("Admin Registered Successfully");
-      navigate("/admin-login");
+      localStorage.setItem("lenderEmail", email);
+      localStorage.setItem("lenderPassword", password);
+      alert("Lender Registered Successfully");
+      navigate("/lender-login");
     } else {
       alert("Please enter all fields");
     }
@@ -26,7 +26,7 @@ export default function AdminRegister() {
 
         <input
           type="email"
-          placeholder="Admin Email"
+          placeholder="Lender Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
@@ -41,7 +41,7 @@ export default function AdminRegister() {
         <button type="submit" className="auth-btn">Register</button>
 
         <p className="auth-text">
-          Already have an account? <Link to="/admin-login">Login</Link>
+          Already have an account? <Link to="/lender-login">Login</Link>
         </p>
       </form>
     </div>

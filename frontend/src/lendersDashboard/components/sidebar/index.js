@@ -12,9 +12,9 @@ export default function Sidebar({ setAuth }) {
 
   const isActive = (path) => location.pathname.startsWith(path);
 
-  const logoutAdmin = () => {
+  const logoutlender = () => {
     localStorage.removeItem("adminToken");
-    navigate("/admin-login"); 
+    navigate("/lender-login"); 
   };
 
   return (
@@ -23,25 +23,25 @@ export default function Sidebar({ setAuth }) {
 
       <ul className="sidebar-menu">
 
-        <li className={isActive("/admin/overview") ? "active" : ""}>
+        <li className={isActive("/lender/overview") ? "active" : ""}>
           <Link to="/admin/overview"><MdDashboard /> Overview</Link>
         </li>
 
-        <li className={isActive("/admin/applications") ? "active" : ""}>
-          <Link to="/admin/applications"><RiFileList2Line /> Applications</Link>
+        <li className={isActive("/lender/applications") ? "active" : ""}>
+          <Link to="/lender/applications"><RiFileList2Line /> Applications</Link>
         </li>
 
         {/*<li className={isActive("/admin/query") ? "active" : ""}>
           <Link to="/admin/query"><BiMessageDetail /> Queries</Link>
         </li>*/}
 
-        <li className={isActive("/admin/settings") ? "active" : ""}>
-          <Link to="/admin/settings"><FiSettings /> Settings</Link>
+        <li className={isActive("/lender/settings") ? "active" : ""}>
+          <Link to="/lender/settings"><FiSettings /> Settings</Link>
         </li>
 
       </ul>
 
-      <div className="sidebar-footer" onClick={logoutAdmin}>
+      <div className="sidebar-footer" onClick={logoutlender}>
         <FiLogOut /> Logout
       </div>
     </div>

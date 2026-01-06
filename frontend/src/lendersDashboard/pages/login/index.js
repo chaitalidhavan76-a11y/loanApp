@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 
-export default function AdminLogin() {
+export default function LenderLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -10,8 +10,8 @@ export default function AdminLogin() {
     e.preventDefault();
 
     if (email && password) {
-      localStorage.setItem("adminToken", "dummyAdminAuth");
-      navigate("/admin"); 
+      localStorage.setItem("lenderToken", "dummyAdminAuth");
+      navigate("/lender"); 
     } else {
       alert("Please enter email & password");
     }
@@ -39,7 +39,7 @@ export default function AdminLogin() {
         <button type="submit" className="auth-btn">Login</button>
 
         <p className="auth-text">
-          New Admin? <Link to="/admin-register">Register</Link>
+          New Admin? <Link to="/lender-register">Register</Link>
         </p>
       </form>
     </div>
