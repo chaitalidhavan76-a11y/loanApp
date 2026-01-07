@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-const applicationSchema = new mongoose.Schema(
+const personalLoanSchema = new mongoose.Schema(
   {
     //User reference
     userId: {
@@ -11,8 +11,8 @@ const applicationSchema = new mongoose.Schema(
 
     loanType: {
       type: String,
-      default: "home",
-      enum: ["home"],
+      default: "personal",
+      enum: ["personal"],
     },
     // Personal Information (from your form);
     fullName: {
@@ -31,11 +31,6 @@ const applicationSchema = new mongoose.Schema(
       required: [true, "Phone number is required"],
       trim: true,
     },
-    address: {
-      type: String,
-      required: [true, "Address is required"],
-      trim: true,
-    },
 
     //Employment Information ( from your form);
     employmentStatus: {
@@ -44,10 +39,10 @@ const applicationSchema = new mongoose.Schema(
       required: true,
     },
 
-    annualIncome: {
+    monthlyIncome: {
       type: Number,
       required: true,
-      min: [0, "Annual income cannot be negative"],
+      min: [0, "monthly income cannot be negative"],
     },
 
     //Loan details from form;
@@ -56,10 +51,9 @@ const applicationSchema = new mongoose.Schema(
       required: [true, "LoanAmount is required"],
       min: [1000, "Loan amount must be at least ₹1000"],
     },
-    loanTenure: {
-      type: Number,
+    purposeOfLoan: {
+      type: String,
       required: true,
-      enum: [5, 10, 15, 20, 25],
     },
 
     //Application Status
@@ -78,4 +72,4 @@ const applicationSchema = new mongoose.Schema(
     timestamps: true, //Automatically adds createdAt and updatedAt
   }
 );
-export default mongoose.model("Application", applicationSchema);
+export default mongoose.model("Personal Loans", personalLoanSchema);
