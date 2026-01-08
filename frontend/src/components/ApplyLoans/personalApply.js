@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+<<<<<<< HEAD
 const API_URL = 'http://localhost:5000/api';
 
+=======
+const API_URL = "http://localhost:5000/api/user";
+>>>>>>> bbdc4f96cca4a6dc5e660450c874ce278feb2d62
 
 const PersonalLoanApplication = () => {
   const navigate = useNavigate();
@@ -11,24 +15,39 @@ const PersonalLoanApplication = () => {
     fullName: "",
     phone: "",
     email: "",
+<<<<<<< HEAD
     employmentStatus: "",
+=======
+    employmentStatus: "", // ✅ FIXED
+>>>>>>> bbdc4f96cca4a6dc5e660450c874ce278feb2d62
     monthlyIncome: "",
     loanAmount: "",
-    purpose: "",
+    purposeOfLoan: "", // ✅ FIXED
   });
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
+<<<<<<< HEAD
 
   const handleChange = (e) =>{
     setForm({ ...form, [e.target.name]: e.target.value });
   setError(null);
   }
+=======
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [success, setSuccess] = useState(false);
+
+  const handleChange = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
+
+>>>>>>> bbdc4f96cca4a6dc5e660450c874ce278feb2d62
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
+<<<<<<< HEAD
     setSuccess(false);
    
 
@@ -90,6 +109,56 @@ const PersonalLoanApplication = () => {
     }
 
 
+=======
+
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      setError("Please login first");
+      setLoading(false);
+      setTimeout(() => navigate("/login"), 1500);
+      return;
+    }
+
+    try {
+      const res = await fetch(`${API_URL}/personal-loan`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          ...form,
+          monthlyIncome: Number(form.monthlyIncome),
+          loanAmount: Number(form.loanAmount),
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.message || "Submission failed");
+      }
+
+      setSuccess(true);
+      alert("Personal loan application submitted successfully");
+      console.log(data);
+
+      setForm({
+        fullName: "",
+        phone: "",
+        email: "",
+        employmentStatus: "",
+        monthlyIncome: "",
+        loanAmount: "",
+        purposeOfLoan: "",
+      });
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+>>>>>>> bbdc4f96cca4a6dc5e660450c874ce278feb2d62
   };
 
   return (
@@ -127,13 +196,14 @@ const PersonalLoanApplication = () => {
       )}
 
 
-      <form className="loan-form" onSubmit={handleSubmit}>
+      {error && <p className="error-text">{error}</p>}
+      {success && <p className="success-text">Application submitted</p>}
 
+      <form className="loan-form" onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Full Name</label>
           <input
             name="fullName"
-            placeholder="Enter your full name"
             value={form.fullName}
             onChange={handleChange}
             required
@@ -146,7 +216,6 @@ const PersonalLoanApplication = () => {
           <input
             name="email"
             type="email"
-            placeholder="example@mail.com"
             value={form.email}
             onChange={handleChange}
             required
@@ -159,7 +228,6 @@ const PersonalLoanApplication = () => {
           <input
             name="phone"
             type="tel"
-            placeholder="Enter mobile number"
             value={form.phone}
             onChange={handleChange}
             required
@@ -187,7 +255,6 @@ const PersonalLoanApplication = () => {
           <input
             name="monthlyIncome"
             type="number"
-            placeholder="0"
             value={form.monthlyIncome}
             onChange={handleChange}
             required
@@ -200,7 +267,6 @@ const PersonalLoanApplication = () => {
           <input
             name="loanAmount"
             type="number"
-            placeholder="0"
             value={form.loanAmount}
             onChange={handleChange}
             required
@@ -211,9 +277,8 @@ const PersonalLoanApplication = () => {
         <div className="form-group">
           <label>Purpose of Loan</label>
           <input
-            name="purpose"
-            placeholder="E.g. medical, travel, education"
-            value={form.purpose}
+            name="purposeOfLoan"
+            value={form.purposeOfLoan}
             onChange={handleChange}
             required
             disabled={loading}

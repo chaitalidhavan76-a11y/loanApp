@@ -186,7 +186,6 @@ const HomeLoanApplication = () => {
             value={form.employmentStatus}
             onChange={handleChange}
             required
-            disabled={loading}
           >
             <option value="">Select</option>
             <option value="salaried">Salaried</option>

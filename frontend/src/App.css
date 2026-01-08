@@ -606,7 +606,14 @@
   display: block;
 }
 
-.form-group select,
+.form-group select {
+  display: block !important;
+  width: 100% !important;
+  height: 50px !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
 .form-group input {
   width: 100%;
   padding: 14px 15px;
@@ -2695,7 +2702,7 @@ input[type="range"] {
   border: 2px solid #2563eb;
 }
 
-.profile-pic{
+.profile-pic {
   width: 40px;
   height: 40px;
   border-radius: 50%;

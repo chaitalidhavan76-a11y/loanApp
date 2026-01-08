@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FiSun, FiMoon } from "react-icons/fi";
 import axios from "axios";
-import Header from "../../../components/Header";
+import Header from "../components/header.js";
 
 export default function Settings({ theme, setTheme }) {
   const [email, setEmail] = useState("");

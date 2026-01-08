@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 
-export default function AdminLogin() {
+export default function LenderLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -11,6 +11,8 @@ export default function AdminLogin() {
     e.preventDefault();
 
     if (email && password) {
+      localStorage.setItem("lenderToken", "dummyAdminAuth");
+      navigate("/lender"); 
       try {
         const response = await axios.post("http://localhost:5000/api/admin/admin-login", { email, password });
         localStorage.setItem("adminToken", response.data.token);
@@ -52,6 +54,9 @@ export default function AdminLogin() {
 
         <button type="submit" className="auth-btn">Login</button>
 
+        <p className="auth-text">
+          New Admin? <Link to="/lender-register">Register</Link>
+        </p>
         {/* <p className="auth-text">
           New Admin? <Link to="/admin-register">Register</Link>
         </p> */}

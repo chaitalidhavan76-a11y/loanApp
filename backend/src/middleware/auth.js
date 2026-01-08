@@ -38,7 +38,10 @@ export const authenticate = async (req, res, next) => {
       console.log("✅ Token found in cookies");
     }
     // Method 2: Check for token in Authorization Bearer header
-    else if (req.headers.authorization && req.headers.authorization.startsWith("Bearer ")) {
+    else if (
+      req.headers.authorization &&
+      req.headers.authorization.startsWith("Bearer ")
+    ) {
       token = req.headers.authorization.slice(7);
       console.log("✅ Token found in Authorization header");
     }
@@ -46,9 +49,9 @@ export const authenticate = async (req, res, next) => {
     // If no token found
     if (!token) {
       console.log("❌ No token found in cookies or headers");
-      return res.status(401).json({ 
+      return res.status(401).json({
         success: false,
-        message: "Not authorized, no token provided" 
+        message: "Not authorized, no token provided",
       });
     }
 
@@ -57,11 +60,11 @@ export const authenticate = async (req, res, next) => {
 
     // Find user by ID from token
     const user = await User.findById(decoded.id).select("-password");
-    
+
     if (!user) {
-      return res.status(401).json({ 
+      return res.status(401).json({
         success: false,
-        message: "User not found" 
+        message: "User not found",
       });
     }
 
@@ -70,10 +73,49 @@ export const authenticate = async (req, res, next) => {
     next();
   } catch (err) {
     console.error("❌ Auth error:", err.message);
-    return res.status(401).json({ 
+    return res.status(401).json({
       success: false,
       message: "Not authorized, token failed",
-      error: err.message
+      error: err.message,
+    });
+  }
+};
+
+export const auth = async (req, res, next) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({
+        success: false,
+        message: "Authorization token missing",
+      });
+    }
+    const token = authHeader.split(" ")[1];
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findById(decoded.id).select("-password");
+
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    req.user = {
+      id: user._id,
+      email: user.email,
+      role: user.role,
+    };
+
+    console.log("✅ User authenticated:", user.email);
+
+    next();
+  } catch (error) {
+    console.error("Auth Middleware Error:", error.message);
+
+    return res.status(401).json({
+      success: false,
+      message: "Invalid or expired token",
     });
   }
 };
