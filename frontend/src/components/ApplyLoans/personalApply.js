@@ -1,12 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-<<<<<<< HEAD
 const API_URL = 'http://localhost:5000/api';
 
-=======
-const API_URL = "http://localhost:5000/api/user";
->>>>>>> bbdc4f96cca4a6dc5e660450c874ce278feb2d62
 
 const PersonalLoanApplication = () => {
   const navigate = useNavigate();
@@ -15,11 +11,7 @@ const PersonalLoanApplication = () => {
     fullName: "",
     phone: "",
     email: "",
-<<<<<<< HEAD
     employmentStatus: "",
-=======
-    employmentStatus: "", // ✅ FIXED
->>>>>>> bbdc4f96cca4a6dc5e660450c874ce278feb2d62
     monthlyIncome: "",
     loanAmount: "",
     purposeOfLoan: "", // ✅ FIXED
@@ -28,26 +20,15 @@ const PersonalLoanApplication = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
-<<<<<<< HEAD
 
   const handleChange = (e) =>{
     setForm({ ...form, [e.target.name]: e.target.value });
   setError(null);
   }
-=======
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(false);
-
-  const handleChange = (e) =>
-    setForm({ ...form, [e.target.name]: e.target.value });
-
->>>>>>> bbdc4f96cca4a6dc5e660450c874ce278feb2d62
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-<<<<<<< HEAD
     setSuccess(false);
    
 
@@ -109,56 +90,6 @@ const PersonalLoanApplication = () => {
     }
 
 
-=======
-
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      setError("Please login first");
-      setLoading(false);
-      setTimeout(() => navigate("/login"), 1500);
-      return;
-    }
-
-    try {
-      const res = await fetch(`${API_URL}/personal-loan`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          ...form,
-          monthlyIncome: Number(form.monthlyIncome),
-          loanAmount: Number(form.loanAmount),
-        }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.message || "Submission failed");
-      }
-
-      setSuccess(true);
-      alert("Personal loan application submitted successfully");
-      console.log(data);
-
-      setForm({
-        fullName: "",
-        phone: "",
-        email: "",
-        employmentStatus: "",
-        monthlyIncome: "",
-        loanAmount: "",
-        purposeOfLoan: "",
-      });
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
->>>>>>> bbdc4f96cca4a6dc5e660450c874ce278feb2d62
   };
 
   return (

@@ -16,11 +16,7 @@ import applicationRoutes from "./src/routes/applicationRoutes.js";
 import adminRoutes from "./src/routes/adminRoutes.js"; // Admin routes
 import { errorHandler } from "./src/middleware/error.js";
 import autoloanRoutes from "./src/routes/autoRoutes.js";
-<<<<<<< HEAD
-import personalLoanRoutes from "./src/routes/personalLoanRoutes.js";
-=======
 import router from "./src/routes/personalLoanRoutes.js";
->>>>>>> bbdc4f96cca4a6dc5e660450c874ce278feb2d62
 
 const app = express();
 
@@ -45,23 +41,17 @@ app.get("/api/health", (_req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/loans", loanRoutes);
 app.use("/api/lenders", lenderRoutes);
-<<<<<<< HEAD
-=======
 app.use("/api/applications", applicationRoutes); // NEW - Home Loan
 app.use("/api/admin", adminRoutes);
 app.use("/api/user", router);
->>>>>>> bbdc4f96cca4a6dc5e660450c874ce278feb2d62
 
 app.use("/api/applications", applicationRoutes);
 app.use("/api/applications/auto", autoloanRoutes);
 app.use("/api/application/personal", personalLoanRoutes);
 app.use("/api/admin", adminRoutes); // Admin panel routes
 
-<<<<<<< HEAD
 
 
-=======
->>>>>>> bbdc4f96cca4a6dc5e660450c874ce278feb2d62
 // Error handler
 app.use(errorHandler);
 
