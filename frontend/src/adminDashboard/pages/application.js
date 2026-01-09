@@ -1,51 +1,50 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 const Applications = () => {
   const [search, setSearch] = useState("");
+  const [applications, setApplications] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  const applications = [
-    {
-      name: "Rahul Sharma",
-      loanType: "Personal Loan",
-      status: "Pending",
-      amount: "₹2,00,000",
-    },
-    {
-      name: "Amit Verma",
-      loanType: "Business Loan",
-      status: "Approved",
-      amount: "₹8,00,000",
-    },
-    {
-      name: "Priya Desai",
-      loanType: "Education Loan",
-      status: "Disbursed",
-      amount: "₹4,50,000",
-    },
-    {
-      name: "Sonal Singh",
-      loanType: "Home Loan",
-      status: "Rejected",
-      amount: "₹25,00,000",
-    },
-  ];
+  useEffect(() => {
+    fetchApplications();
+  }, []);
+
+  const fetchApplications = async () => {
+    try {
+      const adminToken = localStorage.getItem("adminToken");
+
+      const res = await axios.get(
+        "http://localhost:5000/api/admin/All-Home-Application",
+        {
+          headers: {
+            Authorization: `Bearer ${adminToken}`,
+          },
+        }
+      );
+
+      setApplications(res.data.data || []);
+    } catch (error) {
+      console.error("Error fetching applications:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const filteredApplications = applications.filter(
     (app) =>
-      app.name.toLowerCase().includes(search.toLowerCase()) ||
-      app.loanType.toLowerCase().includes(search.toLowerCase()) ||
-      app.status.toLowerCase().includes(search.toLowerCase())
+      app.fullName?.toLowerCase().includes(search.toLowerCase()) ||
+      app.loanType?.toLowerCase().includes(search.toLowerCase()) ||
+      app.status?.toLowerCase().includes(search.toLowerCase())
   );
 
   return (
     <div className="admin-app-wrapper">
-      {/* Header */}
       <div className="admin-app-header">
         <h2>Loan Applications</h2>
         <p>Manage and review all loan applications</p>
       </div>
 
-      {/* Search */}
       <div className="admin-app-search">
         <input
           type="text"
@@ -55,7 +54,6 @@ const Applications = () => {
         />
       </div>
 
-      {/* Table */}
       <div className="admin-app-card">
         <table className="admin-app-table">
           <thead>
@@ -68,11 +66,17 @@ const Applications = () => {
           </thead>
 
           <tbody>
-            {filteredApplications.length > 0 ? (
-              filteredApplications.map((app, index) => (
-                <tr key={index}>
-                  <td>{app.name}</td>
-                  <td>{app.loanType}</td>
+            {loading ? (
+              <tr>
+                <td colSpan="4" className="no-data">
+                  Loading applications...
+                </td>
+              </tr>
+            ) : filteredApplications.length > 0 ? (
+              filteredApplications.map((app) => (
+                <tr key={app._id}>
+                  <td>{app.fullName}</td>
+                  <td>{app.loanType.toUpperCase()}</td>
                   <td
                     className={`app-status ${app.status
                       .toLowerCase()
@@ -80,7 +84,7 @@ const Applications = () => {
                   >
                     {app.status}
                   </td>
-                  <td>{app.amount}</td>
+                  <td>₹{app.loanAmount.toLocaleString("en-IN")}</td>
                 </tr>
               ))
             ) : (

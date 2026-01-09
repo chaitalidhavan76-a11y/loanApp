@@ -5,7 +5,7 @@ import {
    getAutoloanById,
    updateAutoloanApplication,
    deleteAutoloanApplication,
-} from "../controllers/autoloanController.js.js";
+} from "../controllers/autoloanController.js";
 import { authenticate } from "../middleware/auth.js";
 
 const router = express.Router();

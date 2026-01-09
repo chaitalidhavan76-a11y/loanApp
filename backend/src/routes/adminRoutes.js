@@ -4,6 +4,7 @@ import { changeAdminPassword, getAdminEmail } from "../utils/CreateAdmin.js";
 import authAdmin from "../middleware/admin.js";
 import { getAllHomeApplications } from "../controllers/applicationController.js";
 import { getAllUsers } from "../controllers/authController.js";
+import { countApplications, countUser } from "../controllers/userController.js";
 
 const router = express.Router();
 
@@ -17,5 +18,8 @@ router.put("/change-password", authAdmin, changeAdminPassword);
 router.get("/All-Home-Application", authAdmin, getAllHomeApplications);
 
 router.get("/All-Users", authAdmin, getAllUsers);
+
+router.get("/user-count", countUser);
+router.get("/application-count", countApplications);
 
 export default router;

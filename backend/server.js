@@ -47,7 +47,7 @@ app.use("/api/user", router);
 
 app.use("/api/applications", applicationRoutes);
 app.use("/api/applications/auto", autoloanRoutes);
-app.use("/api/application/personal", personalLoanRoutes);
+// app.use("/api/application/personal", personalLoanRoutes);
 app.use("/api/admin", adminRoutes); // Admin panel routes
 
 
