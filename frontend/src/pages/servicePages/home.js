@@ -1,6 +1,6 @@
 import React from "react";
 import homeImg from "../../assets/images/home.jpg";
-import ServicePage from "./ServicePages";
+import ServicePage from "./ServicePages.js";
 
 
 export default function HomeLoan() {

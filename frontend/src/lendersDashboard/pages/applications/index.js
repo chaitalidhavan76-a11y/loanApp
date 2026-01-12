@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FiSearch } from "react-icons/fi";
-import ApplicationModal from "../../components/applicationModal"; 
+import ApplicationModal from "../../components/applicationModal/index.js"; 
 
 const loanTypes = [
   "All",

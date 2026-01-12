@@ -1,5 +1,5 @@
 import React from "react";
-import ServicePage from "./ServicePages";
+import ServicePage from "./ServicePages.js";
 import personalImg from "../../assets/images/personal.jpg";
 
 export default function PersonalLoan() {

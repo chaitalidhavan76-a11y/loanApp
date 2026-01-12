@@ -1,6 +1,6 @@
-import Sidebar from "../DSAdashboard/components/sidebar";
-import Dashboard from "../DSAdashboard/components/Dsa";
-import Applications from "../DSAdashboard/components/dsaApplications";
+import Sidebar from "./components/sidebar.js";
+import Dashboard from "./components/Dsa.js";
+import Applications from "./components/dsaApplications.js";
 import "../DSAdashboard/dsa.css";
 import { useState } from "react";
 

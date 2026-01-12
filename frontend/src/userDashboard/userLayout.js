@@ -1,6 +1,6 @@
-import Sidebar from "./components/sidebar";
-import Dashboard from "./components/user";
-import Profile from "./components/profile"; 
+import Sidebar from "./components/sidebar.js";
+import Dashboard from "./components/user.js";
+import Profile from "./components/profile.js";
 import "../userDashboard/user.css";
 import { useState } from "react";
 

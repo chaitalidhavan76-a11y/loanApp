@@ -1,5 +1,5 @@
 import React from "react";
-import ServicePage from "./ServicePages";
+import ServicePage from "./ServicePages.js";
 import businessImg from "../../assets/images/buisness.jpg"; 
 
 export default function BusinessLoan() {
