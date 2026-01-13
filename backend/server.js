@@ -16,20 +16,28 @@ import applicationRoutes from "./src/routes/applicationRoutes.js";
 import adminRoutes from "./src/routes/adminRoutes.js"; // Admin routes
 import { errorHandler } from "./src/middleware/error.js";
 import autoloanRoutes from "./src/routes/autoRoutes.js";
-import router from "./src/routes/personalLoanRoutes.js";
+import personalLoanRoutes from "./src/routes/personalLoanRoutes.js";
+import contactRoutes from "./src/routes/contactRoutes.js";
 
 const app = express();
 
 // Middleware - MUST come before routes
+const allowedOrigins = [
+  "http://localhost:3000",
+  "http://localhost:5173",
+  env.frontendUrl,
+].filter(Boolean);
+
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: allowedOrigins.length ? allowedOrigins : "*",
     methods: ["GET", "POST", "PATCH", "DELETE", "PUT"],
     credentials: true,
   })
 );
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Health check
@@ -37,20 +45,31 @@ app.get("/api/health", (_req, res) => {
   res.json({ status: "ok" });
 });
 
-// Routes
+// Test route to verify server is working
+app.post("/api/test", (_req, res) => {
+  res.json({ message: "POST route is working" });
+});
+
+// Routes - More specific routes must come before general ones
+logger.info("Registering routes...");
 app.use("/api/auth", authRoutes);
+logger.info("Auth routes registered at /api/auth");
 app.use("/api/loans", loanRoutes);
 app.use("/api/lenders", lenderRoutes);
-app.use("/api/applications", applicationRoutes); // NEW - Home Loan
 app.use("/api/admin", adminRoutes);
-app.use("/api/user", router);
-
-app.use("/api/applications", applicationRoutes);
+app.use("/api/contact", contactRoutes);
+// Specific application routes must come before general /api/applications
+app.use("/api/applications/personal", personalLoanRoutes);
 app.use("/api/applications/auto", autoloanRoutes);
-// app.use("/api/application/personal", personalLoanRoutes);
-app.use("/api/admin", adminRoutes); // Admin panel routes
+app.use("/api/applications", applicationRoutes); // Home loan (general route last)
 
-
+// 404 handler for unmatched routes (must be after all routes)
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    message: `Route ${req.method} ${req.path} not found`,
+  });
+});
 
 // Error handler
 app.use(errorHandler);

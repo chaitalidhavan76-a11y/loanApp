@@ -14,7 +14,7 @@ const router = express.Router();
 router.use(authenticate);
 
 // POST /api/applications - Create new home loan application
-router.post("/", createApplication);
+router.post("/create", createApplication);
 
 // GET /api/applications - Get all my applications
 router.get("/", getMyApplications);
