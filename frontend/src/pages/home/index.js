@@ -1,10 +1,10 @@
 import React from "react";
 import heroImg from "../../assets/images/banner.jpg";
-import ServicesSection from "../../components/services";
-import StepsSection from "../../components/howItWorks";
+import ServicesSection from "../../components/services/index.js";
+import StepsSection from "../../components/howItWorks/index.js";
 import { MdOutlineCreditScore } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
-import LoanCalculator from "../../components/loanCalculator";
+import LoanCalculator from "../../components/loanCalculator/index.js";
 
 
 const Home = () => {

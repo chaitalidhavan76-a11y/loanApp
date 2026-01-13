@@ -6,6 +6,7 @@ export default function LenderLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+  const [show, setShow] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -46,11 +47,12 @@ export default function LenderLogin() {
         />
 
         <input
-          type="password"
+          type={show ? 'text': 'password'}
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+        <button style={{ marginLeft: '270px', border: 'none', marginTop: '-80px' }} onClick={() => setShow(!show)}>{show? 'Hide': 'Show'}</button>
 
         <button type="submit" className="auth-btn">Login</button>
 

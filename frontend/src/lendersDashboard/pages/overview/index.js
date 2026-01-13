@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaFileAlt, FaCheckCircle, FaHourglassHalf, FaMoneyCheck } from "react-icons/fa";
-import RecentApplications from "../../components/recentApplications";
-import RecentDisbursements from "../../components/recentDisbursements";
+import RecentApplications from "../../components/recentApplications/index.js";
+import RecentDisbursements from "../../components/recentDisbursements/index.js";
 
 export default function Overview() {
   const [applications, setApplications] = useState([]);

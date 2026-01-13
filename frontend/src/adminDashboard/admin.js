@@ -1,11 +1,11 @@
 import { useState } from "react";
-import Sidebar from "./components/sidebar";
-import Dashboard from "./pages/dashboard";
-import Users from "./pages/user";
-import Applications from "./pages/application";
-import Lenders from "./pages/lender";
-import Dsas from "./pages/dsa";
-import Settings from "./pages/settings";
+import Sidebar from "./components/sidebar.js";
+import Dashboard from "./pages/dashboard.js";
+import Users from "./pages/user.js";
+import Applications from "./pages/application.js";
+import Lenders from "./pages/lender.js";
+import Dsas from "./pages/dsa.js";
+import Settings from "./pages/settings.js";
 import "./admin.css";
 
 const AdminApp = () => {

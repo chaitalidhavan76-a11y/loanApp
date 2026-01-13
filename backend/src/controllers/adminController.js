@@ -155,4 +155,44 @@ export const getDsaApplicationStatus = async (req, res) => {
   }
 };
 
+<<<<<<< HEAD
+=======
+/* =========================
+   GET ALL DSAs
+========================= */
+export const getAllDSAs = async (req, res) => {
+  try {
+    const dsas = await DSA.find().sort({ createdAt: -1 });
+    res.status(200).json(dsas);
+  } catch (error) {
+    console.error("Get DSAs error:", error);
+    res.status(500).json({ message: "Failed to load DSAs" });
+  }
+};
+
+/* =========================
+   UPDATE DSA STATUS
+========================= */
+export const updateDSAStatus = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    if (!["active", "inactive"].includes(status)) {
+      return res.status(400).json({ message: "Invalid status" });
+    }
+
+    const dsa = await DSA.findByIdAndUpdate(id, { status }, { new: true });
+    if (!dsa) {
+      return res.status(404).json({ message: "DSA not found" });
+    }
+
+    res.status(200).json(dsa);
+  } catch (error) {
+    console.error("Update DSA status error:", error);
+    res.status(500).json({ message: "Failed to update DSA status" });
+  }
+};
+
+>>>>>>> 274d8355ad86c6533d5ad2eb550c59d4dc58df94
 export default loginAdmin;

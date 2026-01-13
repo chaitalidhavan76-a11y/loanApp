@@ -1,10 +1,10 @@
 import "../lendersDashboard/lender.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Sidebar from "./components/sidebar";
-import Applications from "./pages/applications";
-import Queries from "./pages/contactQuery";
-import Overview from "./pages/overview";
-import Settings from "./pages/settings";
+import Sidebar from "./components/sidebar/index.js";
+import Applications from "./pages/applications/index.js";
+import Queries from "./pages/contactQuery/index.js";
+import Overview from "./pages/overview/index.js";
+import Settings from "./pages/settings/index.js";
 
 import { Routes, Route, Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";

@@ -1,5 +1,5 @@
 import React from "react";
-import ServicePage from "./ServicePages";
+import ServicePage from "./ServicePages.js";
 import autoImg from "../../assets/images/auto.jpg"; 
 
 export default function AutoLoan() {

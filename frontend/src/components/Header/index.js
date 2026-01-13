@@ -2,8 +2,8 @@ import { useState, useRef, useEffect } from "react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import Logo from "../../assets/images/logo.png";
 
-import LoginModal from "../auth/login";
-import SignupModal from "../auth/signup";
+import LoginModal from "../auth/login/index.js";
+import SignupModal from "../auth/signup/index.js";
 import { Link, useNavigate } from "react-router-dom";
 
 const Header = () => {

@@ -1,5 +1,5 @@
 import React from "react";
-import ServicePage from "./ServicePages";
+import ServicePage from "./ServicePages.js";
 import studentImg from "../../assets/images/student.jpg"; 
 
 export default function StudentLoan() {
