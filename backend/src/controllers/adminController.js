@@ -155,8 +155,6 @@ export const getDsaApplicationStatus = async (req, res) => {
   }
 };
 
-<<<<<<< HEAD
-=======
 /* =========================
    GET ALL DSAs
 ========================= */
@@ -194,5 +192,4 @@ export const updateDSAStatus = async (req, res) => {
   }
 };
 
->>>>>>> 274d8355ad86c6533d5ad2eb550c59d4dc58df94
 export default loginAdmin;

@@ -3,11 +3,8 @@ import loginAdmin, {
   getDsaApplicationStatus,
   getDsaPerformance,
   getDsaSummary,
-<<<<<<< HEAD
-=======
   getAllDSAs,
   updateDSAStatus,
->>>>>>> 274d8355ad86c6533d5ad2eb550c59d4dc58df94
 } from "../controllers/adminController.js";
 
 import { changeAdminPassword, getAdminEmail } from "../utils/CreateAdmin.js";
@@ -35,10 +32,7 @@ router.get("/application-count", countApplications);
 router.get("/summary", getDsaSummary);
 router.get("/performance", getDsaPerformance);
 router.get("/dsa/application-status", getDsaApplicationStatus);
-<<<<<<< HEAD
-=======
 router.get("/dsas", authAdmin, getAllDSAs);
 router.put("/dsas/:id/status", authAdmin, updateDSAStatus);
->>>>>>> 274d8355ad86c6533d5ad2eb550c59d4dc58df94
 
 export default router;
