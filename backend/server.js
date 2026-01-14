@@ -17,6 +17,7 @@ import adminRoutes from "./src/routes/adminRoutes.js"; // Admin routes
 import { errorHandler } from "./src/middleware/error.js";
 import autoloanRoutes from "./src/routes/autoRoutes.js";
 import personalLoanRoutes from "./src/routes/personalLoanRoutes.js";
+import bussinessLoanRoutes from "./src/routes/bussinessLoanRoutes.js";
 import contactRoutes from "./src/routes/contactRoutes.js";
 
 const app = express();
@@ -62,6 +63,7 @@ app.use("/api/contact", contactRoutes);
 app.use("/api/applications/personal", personalLoanRoutes);
 app.use("/api/applications/auto", autoloanRoutes);
 app.use("/api/applications", applicationRoutes); // Home loan (general route last)
+app.use("/api/applications/bussiness", bussinessLoanRoutes);
 
 // 404 handler for unmatched routes (must be after all routes)
 app.use((req, res) => {

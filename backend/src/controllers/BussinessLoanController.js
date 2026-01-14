@@ -62,7 +62,7 @@ export const createBusinessLoan = async (req, res) => {
 // @desc    Get all my business loan applications
 // @route   GET /api/applications/business
 // @access  Private
-export const getMyBusinessLoans = async (req, res) => {
+export const getMyBusinessLoan = async (req, res) => {
   try {
     const businessLoans = await BusinessLoan.find({
       userId: req.user._id,
@@ -87,7 +87,7 @@ export const getMyBusinessLoans = async (req, res) => {
 // @desc    Get single business loan application by ID
 // @route   GET /api/applications/business/:id
 // @access  Private
-export const getBusinessLoanById = async (req, res) => {
+export const getMyBusinessLoanById = async (req, res) => {
   try {
     const businessLoan = await BusinessLoan.findById(req.params.id);
 

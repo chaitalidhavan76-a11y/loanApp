@@ -14,17 +14,25 @@ const Header = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
   const [user, setUser] = useState(null);
+
+  // Sync user state with localStorage and listen for auth changes
   useEffect(() => {
     const syncUser = () => {
       const storedUser = JSON.parse(localStorage.getItem("user") || "null");
       setUser(storedUser);
-      console.log("user Stored variable as ", storedUser);
+      console.log("User stored variable:", storedUser);
     };
 
-    syncUser(); // initial load
+    syncUser(); // Initial load
+
+    // Listen for storage changes (e.g., login in another tab)
+    window.addEventListener("storage", syncUser);
     window.addEventListener("authChange", syncUser);
 
-    return () => window.removeEventListener("authChange", syncUser);
+    return () => {
+      window.removeEventListener("storage", syncUser);
+      window.removeEventListener("authChange", syncUser);
+    };
   }, []);
 
   const toggleDropdown = (e) => {
@@ -32,6 +40,7 @@ const Header = () => {
     setIsOpen((prev) => !prev);
   };
 
+  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -44,7 +53,26 @@ const Header = () => {
   }, []);
 
   const handleProfile = () => {
+    setIsOpen(false);
     navigate("/me");
+  };
+
+  const handleLogout = () => {
+    // Clear all auth data
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    document.cookie = "token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    
+    // Update user state
+    setUser(null);
+    
+    // Dispatch custom event for other components
+    window.dispatchEvent(new Event("authChange"));
+    
+    // Navigate to home
+    navigate("/");
+    
+    alert("Logged out successfully!");
   };
 
   return (
@@ -52,11 +80,13 @@ const Header = () => {
       <header className="ph-header">
         <div className="ph-container">
           <div className="ph-left">
-            <img src={Logo} alt="logo" className="ph-logo" />
+            <Link to="/">
+              <img src={Logo} alt="logo" className="ph-logo" />
+            </Link>
           </div>
 
           <nav className="ph-nav">
-            <a href="/">Home</a>
+            <Link to="/">Home</Link>
 
             <div className="ph-dropdown" ref={dropdownRef}>
               <button className="ph-dropbtn" onClick={toggleDropdown}>
@@ -65,47 +95,94 @@ const Header = () => {
 
               {isOpen && (
                 <div className="ph-dropdown-menu">
-                  <Link to="/homeLoan" className="dropdown-item">
+                  <Link 
+                    to="/homeLoan" 
+                    className="dropdown-item"
+                    onClick={() => setIsOpen(false)}
+                  >
                     Home Loan
                   </Link>
-                  <Link to="/personalLoan" className="dropdown-item">
+                  <Link 
+                    to="/personalLoan" 
+                    className="dropdown-item"
+                    onClick={() => setIsOpen(false)}
+                  >
                     Personal Loan
                   </Link>
-                  <Link to="/autoLoan" className="dropdown-item">
+                  <Link 
+                    to="/autoLoan" 
+                    className="dropdown-item"
+                    onClick={() => setIsOpen(false)}
+                  >
                     Auto Loan
                   </Link>
-                  <Link to="/studentLoan" className="dropdown-item">
+                  <Link 
+                    to="/studentLoan" 
+                    className="dropdown-item"
+                    onClick={() => setIsOpen(false)}
+                  >
                     Student Loan
                   </Link>
-                  <Link to="/businessLoan" className="dropdown-item">
+                  <Link 
+                    to="/businessLoan" 
+                    className="dropdown-item"
+                    onClick={() => setIsOpen(false)}
+                  >
                     Business Loan
                   </Link>
                 </div>
               )}
             </div>
 
-            <a href="/About">About Us</a>
-            <a href="/contact">Contact</a>
+            <Link to="/About">About Us</Link>
+            <Link to="/contact">Contact</Link>
           </nav>
 
           <div className="ph-right">
             {!user ? (
-              <button
-                className="ph-login-btn"
-                onClick={() => setShowSignup(true)}
-              >
-                Signup
-              </button>
+              <>
+                <button
+                  className="ph-login-btn"
+                  onClick={() => setShowLogin(true)}
+                  style={{ marginRight: "10px" }}
+                >
+                  Login
+                </button>
+                <button
+                  className="ph-login-btn"
+                  onClick={() => setShowSignup(true)}
+                >
+                  Signup
+                </button>
+              </>
             ) : (
-              <img
-                src={`https://ui-avatars.com/api/?name=${encodeURIComponent(
-                  user.username
-                )}&background=2563eb&color=fff`}
-                alt="User Avatar"
-                title={user.username}
-                className="profile-pic"
-                onClick={handleProfile}
-              />
+              <div className="user-menu" style={{ position: "relative" }}>
+                <img
+                  src={`https://ui-avatars.com/api/?name=${encodeURIComponent(
+                    user.username || user.name || "User"
+                  )}&background=2563eb&color=fff`}
+                  alt="User Avatar"
+                  title={user.username || user.name}
+                  className="profile-pic"
+                  onClick={handleProfile}
+                  style={{ cursor: "pointer" }}
+                />
+                <button
+                  onClick={handleLogout}
+                  className="logout-btn"
+                  style={{
+                    marginLeft: "10px",
+                    padding: "8px 16px",
+                    backgroundColor: "#dc3545",
+                    color: "white",
+                    border: "none",
+                    borderRadius: "4px",
+                    cursor: "pointer",
+                  }}
+                >
+                  Logout
+                </button>
+              </div>
             )}
           </div>
         </div>

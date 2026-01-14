@@ -12,7 +12,9 @@ const LoginModal = ({ onClose, onSwitch }) => {
 
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -48,17 +50,29 @@ const LoginModal = ({ onClose, onSwitch }) => {
         throw new Error(data.message || "Login failed");
       }
 
+      // Store token and user data
       localStorage.setItem("token", data.token);
       localStorage.setItem("user", JSON.stringify(data.user));
+      
+      // Also set token in cookie for consistency
+      document.cookie = `token=${data.token}; path=/; max-age=${7 * 24 * 60 * 60}`; // 7 days
 
       alert("Login successful!");
       onClose();
-      window.location.reload();
+      
+      // Navigate to dashboard or home instead of reload
+      navigate('/dashboard');
+      // Alternatively, if you need to reload:
+      // window.location.href = '/dashboard';
     } catch (err) {
-      setError(err.message);
+      setError(err.message || "Login failed. Please try again.");
     } finally {
       setLoading(false);
     }
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
   };
 
   return (
@@ -70,7 +84,7 @@ const LoginModal = ({ onClose, onSwitch }) => {
 
         <h2 className="loginTitle">Login to your account</h2>
 
-        <button className="googleBtn">
+        <button className="googleBtn" type="button">
           <FcGoogle />
           <span>Continue with Google</span>
         </button>
@@ -82,7 +96,14 @@ const LoginModal = ({ onClose, onSwitch }) => {
         {error && (
           <div
             className="error-message"
-            style={{ color: "red", marginBottom: "10px" }}
+            style={{
+              color: "white",
+              backgroundColor: "#dc3545",
+              padding: "10px",
+              borderRadius: "4px",
+              marginBottom: "15px",
+              textAlign: "center",
+            }}
           >
             {error}
           </div>
@@ -97,17 +118,41 @@ const LoginModal = ({ onClose, onSwitch }) => {
             value={formData.email}
             onChange={handleChange}
             required
+            autoComplete="email"
           />
 
           <label>Password *</label>
-          <input
-            type="password"
-            name="password"
-            placeholder="Create a strong password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
+          <div style={{ position: "relative" }}>
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              placeholder="Enter your password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+              autoComplete="current-password"
+              style={{ paddingRight: "40px" }}
+            />
+            <button
+              type="button"
+              onClick={togglePasswordVisibility}
+              style={{
+                position: "absolute",
+                right: "10px",
+                top: "50%",
+                transform: "translateY(-50%)",
+                background: "none",
+                border: "none",
+                cursor: "pointer",
+                padding: "5px",
+                display: "flex",
+                alignItems: "center",
+              }}
+              aria-label={showPassword ? "Hide password" : "Show password"}
+            >
+              {showPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
+            </button>
+          </div>
 
           <button className="loginBtn" type="submit" disabled={loading}>
             {loading ? "Logging in..." : "Login"}
@@ -121,7 +166,11 @@ const LoginModal = ({ onClose, onSwitch }) => {
           Don&apos;t have an account?{" "}
           <span
             onClick={onSwitch}
-            style={{ color: "#007bff", cursor: "pointer" }}
+            style={{
+              color: "#007bff",
+              cursor: "pointer",
+              textDecoration: "underline",
+            }}
           >
             Sign up
           </span>
@@ -129,14 +178,26 @@ const LoginModal = ({ onClose, onSwitch }) => {
 
         <p
           className="switchText"
-          style={{ marginTop: "15px", textAlign: "center" }}
+          style={{ marginTop: "10px", textAlign: "center" }}
         >
-          <span onClick={() => navigate("/admin-login")}>Admin Login</span>
+          <span
+            onClick={() => {
+              onClose();
+              navigate("/admin-login");
+            }}
+            style={{
+              color: "#007bff",
+              cursor: "pointer",
+              textDecoration: "underline",
+            }}
+          >
+            Admin Login
+          </span>
         </p>
 
-        <p className="terms">
-          By continuing, you agree to our <a href="#">Terms of Use</a> &{" "}
-          <a href="#">Privacy Policy</a>.
+        <p className="terms" style={{ marginTop: "15px", textAlign: "center", fontSize: "12px" }}>
+          By continuing, you agree to our <a href="/terms">Terms of Use</a> &{" "}
+          <a href="/privacy">Privacy Policy</a>.
         </p>
       </div>
     </div>
