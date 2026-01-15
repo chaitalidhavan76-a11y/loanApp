@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const API_URL = 'http://localhost:5000/api';
 
 const HomeLoanApplication = () => {
   const navigate = useNavigate();
-  
+
   const [form, setForm] = useState({
     fullName: "",
     email: "",
@@ -17,13 +17,48 @@ const HomeLoanApplication = () => {
     loanTenure: "",
   });
 
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+
+  // Check token validity on component mount
+  useEffect(() => {
+    const checkTokenValidity = async () => {
+      const token = localStorage.getItem('token');
+      
+      if (!token) {
+        setError("Please login first to submit application");
+        setTimeout(() => navigate('/'), 2000);
+        return;
+      }
+
+      // Check if token is expired
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        const isExpired = payload.exp * 1000 < Date.now();
+        
+        if (isExpired) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+          setError("Your session has expired. Please login again.");
+          setTimeout(() => navigate('/'), 2000);
+        }
+      } catch (err) {
+        console.error("Invalid token format:", err);
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        setError("Invalid session. Please login again.");
+        setTimeout(() => navigate('/'), 2000);
+      }
+    };
+
+    checkTokenValidity();
+  }, [navigate]);
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
-    setError(null); // Clear error on input change
+    setError(null);
   };
 
   const handleSubmit = async (e) => {
@@ -37,27 +72,73 @@ const HomeLoanApplication = () => {
     if (!token) {
       setError("Please login first to submit application");
       setLoading(false);
-      setTimeout(() => navigate('/admin-login'), 2000);
+      setTimeout(() => navigate('/'), 2000);
+      return;
+    }
+
+    // Double-check token expiration before submission
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const isExpired = payload.exp * 1000 < Date.now();
+      
+      if (isExpired) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        setError("Your session has expired. Please login again.");
+        setLoading(false);
+        setTimeout(() => navigate('/'), 2000);
+        return;
+      }
+    } catch (err) {
+      setError("Invalid session. Please login again.");
+      setLoading(false);
+      setTimeout(() => navigate('/'), 2000);
       return;
     }
 
     try {
-      const response = await fetch(`${API_URL}/applications`, {
+      // Match the exact fields from your schema
+      const applicationData = {
+        fullName: form.fullName,
+        email: form.email,
+        phone: form.phone,
+        address: form.address,
+        employmentStatus: form.employmentStatus,
+        annualIncome: parseFloat(form.annualIncome) || 0,
+        loanAmount: parseFloat(form.loanAmount) || 0,
+        loanTenure: parseInt(form.loanTenure) || 5,
+      };
+
+      console.log('Submitting home loan application:', applicationData);
+
+      // Use the correct route: /api/applications/create
+      const response = await fetch(`${API_URL}/applications/create`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({
-          ...form,
-          loanType: 'home',
-        }),
+        credentials: 'include',
+        body: JSON.stringify(applicationData),
       });
 
       const data = await response.json();
       
       if (!response.ok) {
-        throw new Error(data.message || 'Failed to submit application');
+        console.error("Backend error response:", data);
+        
+        // Handle JWT expiration
+        if (response.status === 401 || data.message?.includes('expired') || data.message?.includes('jwt')) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+          setError("Your session has expired. Please login again.");
+          setTimeout(() => navigate('/'), 2000);
+          return;
+        }
+        
+        throw new Error(data.message || data.error || 'Failed to submit application');
       }
       
       console.log("✅ Success:", data);
@@ -78,18 +159,34 @@ const HomeLoanApplication = () => {
 
     } catch (err) {
       console.error("❌ Error:", err);
+      console.error("Error details:", {
+        message: err.message,
+        name: err.name,
+        stack: err.stack
+      });
       setError(err.message || "Failed to submit application. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
+  // Check if user is logged in
+  const token = localStorage.getItem('token');
+  if (!token) {
+    return (
+      <div className="loan-application-container">
+        <h1 className="loan-title">Home Loan Application</h1>
+        <p className="loan-subtitle" style={{ color: 'red' }}>
+          Please login first to submit application. Redirecting...
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="loan-application-container">
       <h1 className="loan-title">Home Loan Application</h1>
-      <p className="loan-subtitle">
-        Fill in your details to proceed with your home loan request
-      </p>
+      <p className="loan-subtitle">Enter your details to apply for a home loan</p>
 
       {/* Error Message */}
       {error && (
@@ -102,7 +199,7 @@ const HomeLoanApplication = () => {
           borderRadius: '4px'
         }}>
           ⚠️ {error}
-        </div>          
+        </div>
       )}
 
       {/* Success Message */}
@@ -126,7 +223,7 @@ const HomeLoanApplication = () => {
             type="text"
             name="fullName"
             className="form-control"
-            placeholder="Enter your full name"
+            placeholder="Enter full name"
             value={form.fullName}
             onChange={handleChange}
             required
@@ -165,15 +262,15 @@ const HomeLoanApplication = () => {
         </div>
 
         <div className="form-group">
-          <label>Residential Address *</label>
-          <input
-            type="text"
+          <label>Address *</label>
+          <textarea
             name="address"
             className="form-control"
-            placeholder="Enter your address"
+            placeholder="Enter your complete address"
             value={form.address}
             onChange={handleChange}
             required
+            rows="3"
             disabled={loading}
           />
         </div>
@@ -186,10 +283,11 @@ const HomeLoanApplication = () => {
             value={form.employmentStatus}
             onChange={handleChange}
             required
+            disabled={loading}
           >
             <option value="">Select</option>
             <option value="salaried">Salaried</option>
-            <option value="self-employed">Self-employed</option>
+            <option value="self-employed">Self-Employed</option>
             <option value="business">Business</option>
             <option value="retired">Retired</option>
           </select>
@@ -226,7 +324,7 @@ const HomeLoanApplication = () => {
         </div>
 
         <div className="form-group">
-          <label>Preferred Loan Tenure *</label>
+          <label>Loan Tenure (Years) *</label>
           <select
             name="loanTenure"
             className="form-control"
@@ -235,7 +333,7 @@ const HomeLoanApplication = () => {
             required
             disabled={loading}
           >
-            <option value="">Select tenure</option>
+            <option value="">Select</option>
             <option value="5">5 Years</option>
             <option value="10">10 Years</option>
             <option value="15">15 Years</option>
@@ -268,107 +366,3 @@ const HomeLoanApplication = () => {
 };
 
 export default HomeLoanApplication;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

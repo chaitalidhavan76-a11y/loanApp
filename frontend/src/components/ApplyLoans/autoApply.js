@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const API_URL = 'http://localhost:5000/api';
@@ -21,9 +21,44 @@ const AutoLoanApplication = () => {
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
 
+  // Check token validity on component mount
+  useEffect(() => {
+    const checkTokenValidity = async () => {
+      const token = localStorage.getItem('token');
+      
+      if (!token) {
+        setError("Please login first to submit application");
+        setTimeout(() => navigate('/'), 2000);
+        return;
+      }
+
+      // Check if token is expired
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]));
+        const isExpired = payload.exp * 1000 < Date.now();
+        
+        if (isExpired) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+          setError("Your session has expired. Please login again.");
+          setTimeout(() => navigate('/'), 2000);
+        }
+      } catch (err) {
+        console.error("Invalid token format:", err);
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        setError("Invalid session. Please login again.");
+        setTimeout(() => navigate('/'), 2000);
+      }
+    };
+
+    checkTokenValidity();
+  }, [navigate]);
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
-    setError(null); // Clear error on input change
+    setError(null);
   };
 
   const handleSubmit = async (e) => {
@@ -37,31 +72,70 @@ const AutoLoanApplication = () => {
     if (!token) {
       setError("Please login first to submit application");
       setLoading(false);
-      setTimeout(() => navigate('/admin-login'), 2000);
+      setTimeout(() => navigate('/'), 2000);
+      return;
+    }
+
+    // Double-check token expiration before submission
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      const isExpired = payload.exp * 1000 < Date.now();
+      
+      if (isExpired) {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+        setError("Your session has expired. Please login again.");
+        setLoading(false);
+        setTimeout(() => navigate('/'), 2000);
+        return;
+      }
+    } catch (err) {
+      setError("Invalid session. Please login again.");
+      setLoading(false);
+      setTimeout(() => navigate('/'), 2000);
       return;
     }
 
     try {
+      const applicationData = {
+        fullName: form.fullName,
+        email: form.email,
+        phone: form.phone,
+        vehicleType: form.vehicleType,
+        vehiclePrice: parseFloat(form.vehiclePrice) || 0,
+        loanAmount: parseFloat(form.loanAmount) || 0,
+        employmentStatus: form.employmentStatus,
+        monthlyIncome: parseFloat(form.monthlyIncome) || 0,
+      };
+
+      console.log('Submitting auto loan application:', applicationData);
+
       const response = await fetch(`${API_URL}/applications/auto`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
-        }, 
-        body: JSON.stringify({
-          ...form,
-          loanType: 'auto',
-          // Add any fields that backend might require
-          address: form.address || 'N/A',
-          annualIncome: form.monthlyIncome ? (parseInt(form.monthlyIncome) * 12).toString() : '0',
-          loanTenure: '5', // Default tenure for auto loans
-        }),
+        },
+        credentials: 'include',
+        body: JSON.stringify(applicationData),
       });
 
       const data = await response.json();
       
       if (!response.ok) {
         console.error("Backend error response:", data);
+        
+        // Handle JWT expiration
+        if (response.status === 401 || data.message?.includes('expired') || data.message?.includes('jwt')) {
+          localStorage.removeItem('token');
+          localStorage.removeItem('user');
+          document.cookie = 'token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+          setError("Your session has expired. Please login again.");
+          setTimeout(() => navigate('/'), 2000);
+          return;
+        }
+        
         throw new Error(data.message || data.error || 'Failed to submit application');
       }
       
@@ -93,6 +167,19 @@ const AutoLoanApplication = () => {
       setLoading(false);
     }
   };
+
+  // Check if user is logged in
+  const token = localStorage.getItem('token');
+  if (!token) {
+    return (
+      <div className="loan-application-container">
+        <h1 className="loan-title">Auto Loan Application</h1>
+        <p className="loan-subtitle" style={{ color: 'red' }}>
+          Please login first to submit application. Redirecting...
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div className="loan-application-container">
