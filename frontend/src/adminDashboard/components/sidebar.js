@@ -1,6 +1,11 @@
 import { FiHome, FiUsers, FiFileText, FiBriefcase, FiSettings, FiLogOut } from "react-icons/fi";
 
 const Sidebar = ({ setPage }) => {
+  const handleLogout = () => {
+    localStorage.removeItem("adminAuth");
+    window.location.href = "/admin/login";
+  };
+
   return (
     <aside className="admin-sidebar">
       <h2 className="logo">Admin</h2>
@@ -14,7 +19,7 @@ const Sidebar = ({ setPage }) => {
         <button onClick={() => setPage("settings")}><FiSettings /> Settings</button>
       </nav>
 
-      <button className="logout">
+      <button className="logout" onClick={handleLogout}>
         <FiLogOut /> Logout
       </button>
     </aside>

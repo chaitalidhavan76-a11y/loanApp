@@ -42,8 +42,8 @@ const DashboardHome = () => {
       </div>
 
       {/* ===== My Loans ===== */}
-      <div className="card">
-        <h3 className="card-title">My Loans</h3>
+      <div className="usercard">
+        <h3 className="usercard-title">My Loans</h3>
 
         <table className="loan-table">
           <thead>

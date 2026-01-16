@@ -36,18 +36,29 @@ import DsaLayout from './DSAdashboard/dsaLayout.js';
 import AdminApp from './adminDashboard/admin.js';
 
 import Me from "./userDashboard/me.js"
+import Ops from './opsDashboard/ops.js';
+import Login from './opsDashboard/components/login.js';
+import Register from './opsDashboard/components/register.js';
+import DsaLogin from './DSAdashboard/components/login.js';
+import DsaRegister from './DSAdashboard/components/register.js';
+import AdminLogin from './adminDashboard/components/login.js';
+import AdminRegister from './adminDashboard/components/register.js';
 
 
 
 function App() {
   const location = useLocation();
+  const path = location.pathname.toLowerCase();
 
-  const isLenderRoute = location.pathname.startsWith("/lender");
-  const isDashboardRoute = location.pathname.startsWith("/dashboard");
-  const isDsaRoute = location.pathname.startsWith("/dsa");
-  const isadminRoute = location.pathname.startsWith("/admin");
+  const isLenderRoute = path.startsWith("/lender");
+  const isDashboardRoute = path.startsWith("/dashboard");
+  const isDsaRoute = path.startsWith("/dsa");
+  const isadminRoute = path.startsWith("/admin");
+  const isopsRoute = path.startsWith("/ops");
 
-
+  const isOpsAuth = localStorage.getItem("opsAuth");
+  const isDsaAuth = localStorage.getItem("dsaAuth");
+  const isAdminAuth = localStorage.getItem("adminAuth");
 
 
   return (
@@ -55,14 +66,62 @@ function App() {
       <ScrollToTop />
 
       {/* Header: show on website + dashboard, hide on admin */}
-      {!isLenderRoute && !isDsaRoute && !isadminRoute && <Header />}
+      {!isLenderRoute && !isDsaRoute && !isadminRoute && !isopsRoute && <Header />}
 
       <Routes location={location} key={location.pathname}>
+        {/* User Dashboard */}
         <Route path="/dashboard" element={<UserDashboard />} />
 
+        {/*admin*/}
+        {/* ADMIN AUTH */}
+        <Route path="/admin/login" element={<AdminLogin />} />
+        <Route path="/admin/register" element={<AdminRegister />} />
 
-        <Route path="/" element={<Home />} />
+        {/* ADMIN DASHBOARD (PROTECTED) */}
+        <Route
+          path="/admin/dashboard"
+          element={isAdminAuth ? <AdminApp /> : <Navigate to="/admin/login" />}
+        />
+
+        {/* DEFAULT /admin → LOGIN */}
+        <Route path="/admin" element={<Navigate to="/admin/login" />} />
+
+
+        {/* Lender */}
+        <Route path="/lender/*" element={<LenderLayout />} />
+        <Route path="/lender-login" element={<LenderLogin />} />
+        <Route path="/lender-register" element={<LenderRegister />} />
+
+        // DSA AUTH PAGES
+        <Route path="/dsa/login" element={<DsaLogin />} />
+        <Route path="/dsa/register" element={<DsaRegister />} />
+
+// DSA DASHBOARD (PROTECTED)
+        <Route
+          path="/dsa/dashboard"
+          element={isDsaAuth ? <DsaLayout /> : <Navigate to="/dsa/login" />}
+        />
+
+// DEFAULT /dsa → LOGIN
+        <Route path="/dsa" element={<Navigate to="/dsa/login" />} />
+
+
+
+        {/* Admin */}
+        <Route path="/admin" element={<AdminApp />} />
+
+        {/* OPS AUTH */}
+        <Route path="/ops/login" element={<Login />} />
+        <Route path="/ops/register" element={<Register />} />
+        <Route
+          path="/ops"
+          element={isOpsAuth ? <Ops /> : <Login />}
+        />
+
         <Route path="/me" element={<Me />} />
+
+        {/* Website */}
+        <Route path="/" element={<Home />} />
         <Route path="/loan" element={<LoanDetails />} />
         <Route path="/personalInfo" element={<PersonalInfo />} />
         <Route path="/financialInfo" element={<FinancialInfo />} />
@@ -85,20 +144,11 @@ function App() {
         <Route path="/Offers" element={<BestOffers />} />
         <Route path="/check-credit-score" element={<CheckCreditScore />} />
         <Route path="/credit-result" element={<CheckCreditScoreResult />} />
-
-        <Route path="/lender/*" element={<LenderLayout />} />
-        <Route path="/lender-login" element={<LenderLogin />} />
-        <Route path="/lender-register" element={<LenderRegister />} />
-
-
-        <Route path="/dsa" element={<DsaLayout />} />
-
-        <Route path="/admin" element={<AdminApp />} />
-
       </Routes>
 
+
       {/* Footer: hide on admin + dashboard */}
-      {!isLenderRoute && !isDashboardRoute && !isDsaRoute && !isadminRoute && <Footer />}
+      {!isLenderRoute && !isDashboardRoute && !isDsaRoute && !isadminRoute && !isopsRoute && <Footer />}
     </>
   );
 }

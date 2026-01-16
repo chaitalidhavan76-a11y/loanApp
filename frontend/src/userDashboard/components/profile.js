@@ -13,8 +13,8 @@ const Profile = () => {
       <h2 className="welcome">My Profile</h2>
 
       {/* PERSONAL DETAILS */}
-      <div className="card">
-        <h3 className="card-title">Personal Details</h3>
+      <div className="usercard">
+        <h3 className="usercard-title">Personal Details</h3>
 
         <div className="profile-grid">
           <div className="profile-field">
@@ -50,8 +50,8 @@ const Profile = () => {
       </div>
 
       {/* EMPLOYMENT DETAILS */}
-      <div className="card">
-        <h3 className="card-title">Employment Details</h3>
+      <div className="usercard">
+        <h3 className="usercard-title">Employment Details</h3>
 
         <div className="profile-grid">
           <div className="profile-field">

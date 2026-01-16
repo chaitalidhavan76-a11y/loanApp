@@ -16,32 +16,32 @@ export default function LenderLogin() {
       navigate("/lender"); 
       try {
         const response = await axios.post("http://localhost:5000/api/admin/admin-login", { email, password });
-        localStorage.setItem("adminToken", response.data.token);
-        alert("Admin Logged in successfully");
-        navigate("/admin/*");
+        localStorage.setItem("lenderToken", response.data.token);
+        alert("lender Logged in successfully");
+        navigate("/lender/*");
       } catch (error) {
         console.error("Login failed:", error);
         alert("Invalid email or password");
-        navigate("/admin-login");
+        navigate("/lender-login");
         return;
       }
     } else {
       alert("Please enter email & password");
-      navigate("/admin-login");
+      navigate("/lender-login");
       return;
     }
-    navigate("/admin"); 
+    navigate("/lender"); 
     return;
   };
 
   return (
     <div className="auth-container">
       <form className="auth-box" onSubmit={handleLogin}>
-        <h2 className="auth-title">Admin Login</h2>
+        <h2 className="auth-title">Lenders Login</h2>
 
         <input
           type="email"
-          placeholder="Admin Email"
+          placeholder="Lenders Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />

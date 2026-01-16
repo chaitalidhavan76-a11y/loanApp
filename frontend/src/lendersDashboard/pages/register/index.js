@@ -22,7 +22,7 @@ export default function AdminRegister() {
   return (
     <div className="auth-container">
       <form className="auth-box" onSubmit={handleRegister}>
-        <h2 className="auth-title">Admin Registration</h2>
+        <h2 className="auth-title">Lenders Registration</h2>
 
         <input
           type="email"

@@ -54,7 +54,7 @@ const Header = () => {
 
   const handleProfile = () => {
     setIsOpen(false);
-    navigate("/me");
+    navigate("/dashboard");
   };
 
   const handleLogout = () => {
@@ -90,7 +90,7 @@ const Header = () => {
 
             <div className="ph-dropdown" ref={dropdownRef}>
               <button className="ph-dropbtn" onClick={toggleDropdown}>
-                Services {isOpen ? <FaChevronUp /> : <FaChevronDown />}
+                Services {isOpen ? <FaChevronUp className="up"/> : <FaChevronDown className="up" />}
               </button>
 
               {isOpen && (

@@ -189,7 +189,7 @@ body.dark .applications-page {
   border-radius: 16px;
 }
 
-.sidebar {
+.Lendersidebar {
   width: 240px;
   height: 100vh;
   background: #ffffff;
@@ -198,18 +198,18 @@ body.dark .applications-page {
   position: fixed;
 }
 
-.sidebar-logo {
+.Lendersidebar-logo {
   font-size: 18px;
   font-weight: bold;
   margin-bottom: 30px;
 }
 
-.sidebar-menu {
+.Lendersidebar-menu {
   list-style: none;
   padding: 0;
 }
 
-.sidebar-menu li {
+.Lendersidebar-menu li {
   padding: 12px 10px;
   margin-bottom: 10px;
   cursor: pointer;
@@ -217,7 +217,7 @@ body.dark .applications-page {
   transition: 0.2s ease;
 }
 
-.sidebar-menu li a {
+.Lendersidebar-menu li a {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -226,21 +226,21 @@ body.dark .applications-page {
   width: 100%;
 }
 
-.sidebar-menu li:hover,
-.sidebar-menu li.active {
+.Lendersidebar-menu li:hover,
+.Lendersidebar-menu li.active {
   background: #edf1ff;
   color: #3b82f6;
 }
 
-.sidebar-footer {
+.Lendersidebar-footer {
   position: absolute;
   bottom: 20px;
   cursor: pointer;
   color: #ef4444;
 }
 
-.sidebar-menu li svg,
-.sidebar-footer svg {
+.Lendersidebar-menu li svg,
+.Lendersidebar-footer svg {
   margin-right: 10px;
   font-size: 18px;
   vertical-align: middle;

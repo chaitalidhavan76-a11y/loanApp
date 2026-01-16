@@ -1,13 +1,18 @@
 import { FaHome, FaFileAlt, FaSignOutAlt } from "react-icons/fa";
 
 const Sidebar = ({ setPage, activePage }) => {
+ const handleLogout = () => {
+  localStorage.removeItem("dsaAuth");
+  window.location.href = "/dsa/login";
+};
+
   return (
     <aside className="dsa-sidebar">
-      <h2 className="logo">DSA Dashboard</h2>
+      <h2 className="dsalogo">DSA Dashboard</h2>
 
-      <div className="menu">
+      <div className="dsamenu">
         <button
-          className={`menu-item ${activePage === "dsa" ? "active" : ""}`}
+          className={`dsamenu-item ${activePage === "dsa" ? "active" : ""}`}
           onClick={() => setPage("dsa")}
         >
           <FaHome />
@@ -15,7 +20,7 @@ const Sidebar = ({ setPage, activePage }) => {
         </button>
 
         <button
-          className={`menu-item ${activePage === "applications" ? "active" : ""}`}
+          className={`dsamenu-item ${activePage === "applications" ? "active" : ""}`}
           onClick={() => setPage("applications")}
         >
           <FaFileAlt />
@@ -23,9 +28,8 @@ const Sidebar = ({ setPage, activePage }) => {
         </button>
       </div>
 
-      <button className="logout-btn">
-        <FaSignOutAlt />
-        Logout
+      <button className="logout-btn" onClick={handleLogout}>
+        <FaSignOutAlt /> Logout
       </button>
     </aside>
   );

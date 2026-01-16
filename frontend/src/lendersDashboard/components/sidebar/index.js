@@ -19,10 +19,10 @@ export default function Sidebar({ setAuth }) {
   };
 
   return (
-    <div className="sidebar">
-      <h2 className="sidebar-logo">Lenders Dashboard</h2>
+    <div className="Lendersidebar">
+      <h2 className="Lendersidebar-logo">Lenders Dashboard</h2>
 
-      <ul className="sidebar-menu">
+      <ul className="Lendersidebar-menu">
 
         <li className={isActive("/lender/overview") ? "active" : ""}>
           <Link to="/admin/overview"><MdDashboard /> Overview</Link>
@@ -46,7 +46,7 @@ export default function Sidebar({ setAuth }) {
 
       </ul>
 
-      <div className="sidebar-footer" onClick={logoutlender}>
+      <div className="Lendersidebar-footer" onClick={logoutlender}>
         <FiLogOut /> Logout
       </div>
     </div>

@@ -3,9 +3,18 @@ import Dashboard from "./components/Dsa.js";
 import Applications from "./components/dsaApplications.js";
 import "../DSAdashboard/dsa.css";
 import { useState } from "react";
+import { Navigate } from "react-router-dom";
+
 
 function DsaLayout() {
   const [page, setPage] = useState("dsa");
+  const isAuth = localStorage.getItem("dsaAuth");
+
+  if (!isAuth) {
+    return <Navigate to="/dsa/login" />;
+  }
+
+
 
   return (
     <div className="dsa-layout">

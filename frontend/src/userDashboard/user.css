@@ -119,7 +119,7 @@
 /* ===============================
    CARD / TABLE
 ================================ */
-.card {
+.usercard {
   background: #ffffff;
   border-radius: 16px;
   padding: 24px;
@@ -128,7 +128,7 @@
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
 }
 
-.card-title {
+.usercard-title {
   font-size: 18px;
   font-weight: 600;
   color: #0b2d5c;
