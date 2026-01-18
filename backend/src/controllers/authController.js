@@ -2,6 +2,14 @@ import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
+
+const generateToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: "7d",
+  });
+};
+
+
 export const registerUser = async (req, res) => {
   try {
     const { username, email, password } = req.body;
@@ -15,21 +23,30 @@ export const registerUser = async (req, res) => {
       return res.status(400).json({ message: "User already exists" });
     }
 
-    // ✅ REMOVED bcrypt.hash() completely - model handles it
+    // Password hashing handled by model (correct)
     const user = new User({ username, email, password });
     await user.save();
 
+    const token = generateToken(user._id); // ✅ THIS WAS MISSING
+
     res.status(201).json({
       message: "Registered successfully",
-      user: { id: user._id, email: user.email, username: user.username },
+      token, // ✅ REQUIRED
+      user: {
+        id: user._id,
+        email: user.email,
+        username: user.username,
+      },
     });
   } catch (err) {
     console.error("Registration error:", err);
-    res
-      .status(500)
-      .json({ message: "Registration failed", error: err.message });
+    res.status(500).json({
+      message: "Registration failed",
+      error: err.message,
+    });
   }
 };
+
 
 export const loginUser = async (req, res) => {
   try {
