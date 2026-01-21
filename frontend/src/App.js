@@ -1,5 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import { Navigate } from "react-router-dom";
 import Home from './pages/home/index.js';
 import Header from './components/Header/index.js';
 import LoanDetails from './components/loanDetails/index.js';
@@ -43,6 +44,7 @@ import DsaLogin from './DSAdashboard/components/login.js';
 import DsaRegister from './DSAdashboard/components/register.js';
 import AdminLogin from './adminDashboard/components/login.js';
 import AdminRegister from './adminDashboard/components/register.js';
+import FAQs from './components/FAQs/index.js';
 
 
 
@@ -144,6 +146,7 @@ function App() {
         <Route path="/Offers" element={<BestOffers />} />
         <Route path="/check-credit-score" element={<CheckCreditScore />} />
         <Route path="/credit-result" element={<CheckCreditScoreResult />} />
+        <Route path="/faq" element={<FAQs />} />
       </Routes>
 
 
