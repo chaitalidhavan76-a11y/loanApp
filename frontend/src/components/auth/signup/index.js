@@ -1,6 +1,8 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SignupModal = ({ onClose, onSwitch }) => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -62,18 +64,23 @@ const SignupModal = ({ onClose, onSwitch }) => {
 
       const data = await response.json();
 
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      navigate("/update-profile");
+
       if (!response.ok) {
         throw new Error(data.message || 'Registration failed');
       }
+      alert("Registration successful! Please Update All Details");
+      navigate("/update-profile");
 
-      alert("Registration successful! Please login.");
-      onSwitch(); // Switch to login modal
     } catch (err) {
       setError(err.message);
     } finally {
       setLoading(false);
     }
   };
+
 
   return (
     <div className="myOverlay" onClick={onClose}>

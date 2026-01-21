@@ -27,7 +27,7 @@ import CheckEligibility from './components/eligibility/index.js';
 import LoanCalculator from './components/loanCalculator/index.js';
 import LoanOffers from '../src/components/viewresults/index.js';
 
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, useLocation,useNavigate } from "react-router-dom";
 import LenderLayout from './lendersDashboard/lenderLayout.js';
 import LenderLogin from './lendersDashboard/pages/login/index.js';
 import LenderRegister from './lendersDashboard/pages/register/index.js';
@@ -38,6 +38,7 @@ import AdminApp from './adminDashboard/admin.js';
 
 import Me from "./userDashboard/me.js"
 import Ops from './opsDashboard/ops.js';
+import UserInfoForm from "./userDashboard/components/UserInfoForm.js"
 import Login from './opsDashboard/components/login.js';
 import Register from './opsDashboard/components/register.js';
 import DsaLogin from './DSAdashboard/components/login.js';
@@ -62,6 +63,7 @@ function App() {
   const isDsaAuth = localStorage.getItem("dsaAuth");
   const isAdminAuth = localStorage.getItem("adminAuth");
 
+  const Navigate = useNavigate();
 
   return (
     <>

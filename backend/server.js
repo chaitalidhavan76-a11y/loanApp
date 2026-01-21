@@ -19,6 +19,8 @@ import autoloanRoutes from "./src/routes/autoRoutes.js";
 import personalLoanRoutes from "./src/routes/personalLoanRoutes.js";
 import bussinessLoanRoutes from "./src/routes/bussinessLoanRoutes.js";
 import contactRoutes from "./src/routes/contactRoutes.js";
+import userRouteInfo from "./src/routes/userInfoRoute.js";
+import dashboardRoutes from "./src/routes/dashboardRoutes.js";
 
 const app = express();
 
@@ -26,6 +28,7 @@ const app = express();
 const allowedOrigins = [
   "http://localhost:3000",
   "http://localhost:5173",
+  "https://loanhub.netlify.app",
   env.frontendUrl,
 ].filter(Boolean);
 
@@ -64,6 +67,10 @@ app.use("/api/applications/personal", personalLoanRoutes);
 app.use("/api/applications/auto", autoloanRoutes);
 app.use("/api/applications", applicationRoutes); // Home loan (general route last)
 app.use("/api/applications/bussiness", bussinessLoanRoutes);
+app.use("/api/user", userRouteInfo);
+
+
+app.use("/api/dashboard", dashboardRoutes);
 
 // 404 handler for unmatched routes (must be after all routes)
 app.use((req, res) => {

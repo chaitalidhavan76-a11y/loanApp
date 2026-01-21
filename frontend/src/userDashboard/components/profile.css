@@ -1,0 +1,59 @@
+.profile-page {
+    padding: 24px;
+    background: #f5f7fb;
+  }
+  
+  .profile-title {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+  
+  .profile-card {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 24px;
+    margin-bottom: 24px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.05);
+  }
+  
+  .card-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 18px;
+  }
+  
+  .profile-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+  }
+  
+  .profile-item label {
+    font-size: 13px;
+    color: #6b7280;
+    display: block;
+    margin-bottom: 6px;
+  }
+  
+  .profile-item p {
+    font-size: 14px;
+    font-weight: 500;
+    color: #111827;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .profile-note {
+    margin-top: 18px;
+    font-size: 13px;
+    color: #6b7280;
+  }
+  
+  .profile-loading,
+  .profile-error {
+    padding: 24px;
+    font-size: 14px;
+  }
+  
