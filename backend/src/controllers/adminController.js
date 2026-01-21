@@ -1,7 +1,7 @@
 import Admin from "../models/Admin.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import DSA from "../models/DSA.js";
+import DSA from "../models/Dsa.js";
 import DsaApplication from "../models/DsaApplication.js";
 
 /* =========================
